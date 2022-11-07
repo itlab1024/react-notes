@@ -130,3 +130,53 @@ We suggest that you begin by typing:
 
 You had a `README.md` file, we renamed it to `README.old.md`
 ```
+项目结构
+```text
+react-notes
+|-- README.md # 说明文件
+|-- node_modules # 依赖目录
+|-- package-lock.json #锁定版本号，保证团队开发依赖一致
+|-- package.json # 依赖以及版本说明
+|-- public # 静态公共目录
+|-- src # 源文件，开发的时候就在该目录编码
+```
+启动项目并访问（访问地址在控制台能看到）：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071758898.png)
+react脚手架会给我们在src中生成很多文件，这些文件可以删掉（不删除也是可以的，为了学习方便删掉了）。
+然后重新创建index.css和index.js文件。
+接下来在index.js中引入react依赖
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+```
+# 开发工具
+我选择[WebStorm](https://www.jetbrains.com/webstorm/)，jetbrains的精品工具。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071813964.png)
+# 第一个应用
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// 编写第一个应用
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+const btn = <button>hello react</button>
+ReactDOM.render(btn, root)
+```
+界面显示如下：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071820296.png)
+**说明**：
+* import是导入资源，这和java类似。
+* root是一个div元素，react需要指定一个容器（就是这个root），将其他html元素放入该容器中。
+* const btn = <button>hello react</button> 的语法很奇怪，他是一个JSX语法。
+* ReactDOM.render(<button>hello react</button>, root)是react的渲染方法，第一个参数是元素内容，第二个是容器，其实还有第三个是回调方法。
+# JSX简介
+## 什么是JSX？
+```jsx
+const element = <h1>Hello, world!</h1>;
+```
+上面的代码就是一个JSX，一个javascript的语法扩展，他既不是字符串也不是HTML。
+## JSX的好处
+react是将元素动态渲染到页面，那么这些元素就会有层级关系。如果使用js，则代码中各种document.XX方法，繁琐不说，也无法正确的看出元素的层级结构等信息。
+JSX就解决了这个问题。
