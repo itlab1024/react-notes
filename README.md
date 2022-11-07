@@ -180,3 +180,209 @@ const element = <h1>Hello, world!</h1>;
 ## JSX的好处
 react是将元素动态渲染到页面，那么这些元素就会有层级关系。如果使用js，则代码中各种document.XX方法，繁琐不说，也无法正确的看出元素的层级结构等信息。
 JSX就解决了这个问题。
+## JSX中的表达式
+```jsx
+const element = <h1>Hello, world!</h1>;
+```
+代码中h1内元素内容是静态，JSX支持放入表达式来实现内容替换，使用{表达式}的方式。
+```jsx
+const sayHello = "Hello, world!"
+const element = <h1>{sayHello}</h1>;
+```
+也可以在{}中使用函数，比如
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// 编写第一个应用
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+// 定义一个js函数
+function appendMsg(msg) {
+    return msg + " I am learning react";
+}
+const sayHello = "Hello, world!"
+// 在JSX中使用appengMsg方法处理sayHello，并放入h1标签中。
+const btn = <h1>{appendMsg(sayHello)}</h1>;
+ReactDOM.render(btn, root)
+```
+运行结果如下：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072058040.png)
+## JSX多级元素
+多级元素使用括号括起来
+```jsx
+const btn = (
+    <div>
+        <h1>hello world!</h1>
+    </div>
+)
+```
+# 组件
+组件，从概念上类似于 JavaScript 函数。它接受任意的入参（即 “props”），并返回用于描述页面展示内容的 React 元素。
+## 创建组件
+创建组件有两种方式，一种是使用js函数的方式，一种是使用ES6的class方式。
+### js类组件
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+
+// 使用js的方式定义组件
+function Component1() {
+    return (
+        <div>
+            <h1>第一个组件</h1>
+        </div>
+    )
+}
+
+ReactDOM.render(<Component1/>, root)
+```
+render的第一个参数要使用标签方式<Component1/>，必须是关闭标签，也可以使用<Component1></Component1>，为了简洁就可以使用前者的简写方式。
+
+页面展示：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072119575.png)
+该种方式能很好的定义一个组件，但是更推荐使用ES6 Class的方式。
+### class类组件
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+
+// 使用class的方式定义组件
+class Component1 extends React.Component {
+    // render是不能忽略的，写入自己的JSX代码
+    render() {
+        return (
+            <div>
+                <h1>第一个组件</h1>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<Component1/>, root)
+```
+页面效果跟js定义组件的一样。
+## 渲染组件
+当组件使用户自定义的组件的时候，它会将 JSX 所接收的属性（attributes）以及子组件（children）转换为单个对象传递给组件，这个对象被称之为 “props”。
+### JS类组件
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+
+// 使用js的方式定义组件
+function Component1(props) {
+    return (
+        <div>
+            <h1>第一个组件{props.name}</h1>
+        </div>
+    )
+}
+
+ReactDOM.render(<Component1 name = "one"/>, root)
+```
+解析：<Component1 name = "one"/>传递了一个属性name，值是one，该值传递给里js函数组件的props，JSX中通过props.name获取到了值。
+
+界面展示
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072135037.png)
+## class类组件
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+
+// 使用class的方式定义组件
+class Component1 extends React.Component {
+    // render是不能忽略的，写入自己的JSX代码
+    render() {
+        return (
+            <div>
+                <h1>第一个组件{this.props.name}</h1>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<Component1 name = "one"/>, root)
+```
+解释：class组件类似js组件，不过获取属性的时候使用的是this.props.name。
+## 组合组件
+组件可以互相组合
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+
+// 使用class的方式定义组件
+class Component1 extends React.Component {
+    // render是不能忽略的，写入自己的JSX代码
+    render() {
+        return (
+            <div>
+                <h1>组件1{this.props.name}</h1>
+                <Component2/>
+            </div>
+        )
+    }
+}
+class Component2 extends React.Component {
+    render() {
+        return <h1>组件2</h1>
+    }
+}
+
+ReactDOM.render(<Component1/>, root)
+```
+上面的例子中，Component1中就嵌套了组件Component2
+界面显示如下：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072201394.png)
+# State&生命周期
+## 什么是state？
+state类似于props，但是state是私有的，完全被当前组件自身控制。
+用户可以在state中设置自己的属性，可以通过属性来控制不同的行为。
+## 定义state属性
+可以通过构造函数定义state中的属性
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+// root的元素是index.html中的<div id="root"></div>
+const root = document.getElementById("root");
+
+// 使用class的方式定义组件
+class Component1 extends React.Component {
+    // 构造方法
+    constructor(props) {
+        super(props);
+        this.state = {name: "刘备"}
+    }
+    // render是不能忽略的，写入自己的JSX代码
+    render() {
+        return (
+            <div>
+                <h1>组件1{this.state.name}</h1>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<Component1/>, root)
+```
+解释：constructor(props) 是构造函数的定义，需要注意的时候，super(props)不能被省略（必须是函数体的第一行有效代码（放到第一行））
+this.state = {name: "刘备"}，就是初始化的时候给组件state增加一个属性name，并且初始值="刘备"
+页面显示如下：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072214326.png)
+## 更改state值
+
