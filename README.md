@@ -416,7 +416,7 @@ class Component1 extends React.Component {
 
 root.render(<Component1/>, root)
 ```
-解释：constructor(props) 是构造函数的定义，需要注意的时候，super(props)不能被省略（必须是函数体的第一行有效代码（放到第一行））
+解释：constructor(props) 是构造函数的定义，需要注意的是，super(props)不能被省略（必须是函数体的第一行有效代码（放到第一行））
 this.state = {name: "刘备"}，就是初始化的时候给组件state增加一个属性name，并且初始值="刘备"
 页面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072214326.png)
