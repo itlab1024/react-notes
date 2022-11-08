@@ -381,6 +381,16 @@ root.render(<Component1/>, root)
 上面的例子中，Component1中就嵌套了组件Component2
 界面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072201394.png)
+# React Tools
+React为我们提供了一个调试工具。可以在浏览器的扩展商店中下载安装
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082048829.png)
+点进去，安装即可
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082050005.png)
+访问react项目，打开浏览器控制台，就能找到react的component等界面。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082055564.png)
+点击component就能够看到props等信息
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082057363.png)
+
 # State&生命周期
 ## 什么是state？
 state类似于props，但是state是私有的，完全被当前组件自身控制。
