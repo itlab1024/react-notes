@@ -17,9 +17,9 @@
 [React](https://react.docschina.org/)是用于构建用户界面的 JavaScript 库。
 很高兴有中文文档，这对于英语能力不强的人来说是非常友好的，我学习的途径主要是官网。
 
-> 啪啪啪打脸：学了一天后发现中英文翻译还是有问题的，我用的版本是v18.2.0，所以我还是建议直接去看英文网站（搭配谷歌翻译、或者搭配中文网，但是以英文网站为主，没办法，文档中之前过时的用法，修改一遍）**
+>
+啪啪啪打脸：学了一天后发现中英文翻译还是有问题的，我用的版本是v18.2.0，所以我还是建议直接去看英文网站（搭配谷歌翻译、或者搭配中文网，但是以英文网站为主，没办法，文档中之前过时的用法，修改一遍）**
 > 我是学习新东西，而且工作中也不用，就尽可能学习新的版本的东西，旧版本就不考虑了**
-
 
 # 初识
 
@@ -36,9 +36,9 @@
 <div id="root"></div>
 <script type="text/babel">
     // dom容器，需要将内容填充到该容器中，root是index.html中的id=root的div元素
-    const domContainer  = document.getElementById("root");
+    const domContainer = document.getElementById("root");
     // 创建一个React的Dom
-    const root = ReactDOM.createRoot(domContainer );
+    const root = ReactDOM.createRoot(domContainer);
     // 这是一个JSX语法
     const btn = <button>hello react</button>
     // 使用render渲染
@@ -137,7 +137,9 @@ We suggest that you begin by typing:
 
 You had a `README.md` file, we renamed it to `README.old.md`
 ```
+
 项目结构
+
 ```text
 react-notes
 |-- README.md # 说明文件
@@ -147,11 +149,13 @@ react-notes
 |-- public # 静态公共目录
 |-- src # 源文件，开发的时候就在该目录编码
 ```
+
 启动项目并访问（访问地址在控制台能看到）：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071758898.png)
 react脚手架会给我们在src中生成很多文件，这些文件可以删掉（不删除也是可以的，为了学习方便删掉了）。
 然后重新创建index.css和index.js文件。
 接下来在index.js中引入react依赖
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -159,11 +163,16 @@ import ReactDOM from 'react-dom/client';
 // 引入样式文件
 import "./index.css"
 ```
+
 # 开发工具
+
 我选择[WebStorm](https://www.jetbrains.com/webstorm/)，jetbrains的精品工具。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071813964.png)
+
 # 第一个应用
+
 **之后的应用代码除特别说明，都是写在index.js中**
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -171,41 +180,55 @@ import ReactDOM from 'react-dom/client';
 // 引入样式文件
 import "./index.css"
 // dom容器，需要将内容填充到该容器中，root是index.html中的id=root的div元素
-const domContainer  = document.getElementById("root");
+const domContainer = document.getElementById("root");
 // 创建一个React的Dom
-const root = ReactDOM.createRoot(domContainer );
+const root = ReactDOM.createRoot(domContainer);
 // 这是一个JSX语法
 const btn = <button>hello react</button>
 // 使用render渲染
 root.render(btn)
 ```
+
 界面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071820296.png)
 **说明**：
+
 * import是导入资源，这和java类似。
 * domContainer是一个id=root的div元素，react需要指定一个容器（就是这个root），将其他html元素放入该容器中。
 * root是React创建的虚拟DOM对象
 * const btn = <button>hello react</button> 的语法很奇怪，他是一个JSX语法。
 * root.render(<button>hello react</button>)是react的渲染方法，参数是元素内容。
+
 # JSX简介
+
 ## 什么是JSX？
+
 ```jsx
 const element = <h1>Hello, world!</h1>;
 ```
+
 上面的代码就是一个JSX，一个javascript的语法扩展，他既不是字符串也不是HTML。
+
 ## JSX的好处
+
 react是将元素动态渲染到页面，那么这些元素就会有层级关系。如果使用js，则代码中各种document.XX方法，繁琐不说，也无法正确的看出元素的层级结构等信息。
 JSX就解决了这个问题。
+
 ## JSX中的表达式
+
 ```jsx
 const element = <h1>Hello, world!</h1>;
 ```
+
 代码中h1内元素内容是静态，JSX支持放入表达式来实现内容替换，使用{表达式}的方式。
+
 ```jsx
 const sayHello = "Hello, world!"
 const element = <h1>{sayHello}</h1>;
 ```
+
 也可以在{}中使用函数，比如
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -215,19 +238,25 @@ import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
 const domContainer = document.getElementById("root");
 const root = ReactDOM.createRoot(domContainer);
+
 // 定义一个js函数
 function appendMsg(msg) {
     return msg + " I am learning react";
 }
+
 const sayHello = "Hello, world!"
 // 在JSX中使用appengMsg方法处理sayHello，并放入h1标签中。
 const btn = <h1>{appendMsg(sayHello)}</h1>;
 root.render(btn)
 ```
+
 运行结果如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072058040.png)
+
 ## JSX多级元素
+
 多级元素使用括号括起来
+
 ```jsx
 const btn = (
     <div>
@@ -235,11 +264,17 @@ const btn = (
     </div>
 )
 ```
+
 # 组件
+
 组件，从概念上类似于 JavaScript 函数。它接受任意的入参（即 “props”），并返回用于描述页面展示内容的 React 元素。
+
 ## 创建组件
+
 创建组件有两种方式，一种是使用js函数的方式，一种是使用ES6的class方式。
+
 ### js类组件
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -261,12 +296,15 @@ function Component1() {
 
 root.render(<Component1/>)
 ```
+
 render的第一个参数要使用标签方式<Component1/>，必须是关闭标签，也可以使用<Component1></Component1>，为了简洁就可以使用前者的简写方式。
 
 页面展示：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072119575.png)
 该种方式能很好的定义一个组件，但是更推荐使用ES6 Class的方式。
+
 ### class类组件
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -291,10 +329,16 @@ class Component1 extends React.Component {
 
 root.render(<Component1/>)
 ```
+
 页面效果跟js定义组件的一样。
+
 ## 渲染组件
-当组件使用户自定义的组件的时候，它会将 JSX 所接收的属性（attributes）以及子组件（children）转换为单个对象传递给组件，这个对象被称之为 “props”。
+
+当组件使用户自定义的组件的时候，它会将 JSX 所接收的属性（attributes）以及子组件（children）转换为单个对象传递给组件，这个对象被称之为
+“props”。
+
 ### JS类组件
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -314,13 +358,16 @@ function Component1(props) {
     )
 }
 
-root.render(<Component1 name = "one"/>)
+root.render(<Component1 name="one"/>)
 ```
+
 解析：<Component1 name = "one"/>传递了一个属性name，值是one，该值传递给里js函数组件的props，JSX中通过props.name获取到了值。
 
 界面展示
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072135037.png)
+
 ## class类组件
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -343,11 +390,15 @@ class Component1 extends React.Component {
     }
 }
 
-root.render(<Component1 name = "one"/>)
+root.render(<Component1 name="one"/>)
 ```
+
 解释：class组件类似js组件，不过获取属性的时候使用的是this.props.name。
+
 ## 组合组件
+
 组件可以互相组合
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -370,6 +421,7 @@ class Component1 extends React.Component {
         )
     }
 }
+
 class Component2 extends React.Component {
     render() {
         return <h1>组件2</h1>
@@ -378,10 +430,13 @@ class Component2 extends React.Component {
 
 root.render(<Component1/>)
 ```
+
 上面的例子中，Component1中就嵌套了组件Component2
 界面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072201394.png)
+
 # React Tools
+
 React为我们提供了一个调试工具。可以在浏览器的扩展商店中下载安装
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082048829.png)
 点进去，安装即可
@@ -392,11 +447,16 @@ React为我们提供了一个调试工具。可以在浏览器的扩展商店中
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082057363.png)
 
 # State&生命周期
+
 ## 什么是state？
+
 state类似于props，但是state是私有的，完全被当前组件自身控制。
 用户可以在state中设置自己的属性，可以通过属性来控制不同的行为。
+
 ## 定义state属性
+
 可以通过构造函数定义state中的属性
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -414,6 +474,7 @@ class Component1 extends React.Component {
         super(props);
         this.state = {name: "刘备"}
     }
+
     // render是不能忽略的，写入自己的JSX代码
     render() {
         return (
@@ -426,9 +487,114 @@ class Component1 extends React.Component {
 
 root.render(<Component1/>)
 ```
+
 解释：constructor(props) 是构造函数的定义，需要注意的是，super(props)不能被省略（必须是函数体的第一行有效代码（放到第一行））
 this.state = {name: "刘备"}，就是初始化的时候给组件state增加一个属性name，并且初始值="刘备"
 页面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072214326.png)
+
 ## 更改state值
 
+这里我使用官网Clock的例子（时钟，每秒自动更新）
+
+```javascript
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 定义Clock组件
+class Clock extends React.Component {
+    // 构造函数
+    constructor(props) {
+        super(props);
+        this.state = {date: new Date()};
+    }
+
+    // 渲染
+    render() {
+        return (
+            <div>
+                <h1>Hello, world!</h1>
+                <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+        );
+    }
+}
+
+root.render(<Clock/>);
+```
+
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082210985.png)
+解释：在Clock里，定义了构造函数，在构造函数里设置了state里的值`this.state = {date: new Date()};`
+其中key是date，value是`new Date()`
+在render方法中，获取了state中的date值。
+**那么如何更改时间呢？**
+需要个定时器，并且当组件销毁的时候还需要将定时器销毁，react提供了很多钩子方法。在这里可以使用两个
+
+* componentDidMount：该函数在组件被渲染到DOM之后执行。
+* componentWillUnmount该函数在组件卸载之后执行。
+  那么就可以在componentDidMount中启动要给定时器。
+  在componentWillUnmount中销毁定时器
+
+```javascript
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 定义Clock组件
+class Clock extends React.Component {
+    // 构造函数
+    constructor(props) {
+        super(props);
+        this.state = {date: new Date()};
+    }
+
+    // 该方法用于设置状态，特别注意要使用setState方法，而不是使用this.state = {}的方式。
+    tick() {
+        this.setState({
+            date: new Date()
+        });
+    }
+
+    // 创建一个定时器
+    componentDidMount() {
+        this.timerId = setInterval(() => {
+            this.tick()
+        }, 1000)
+    }
+
+    // 销毁定时器
+    componentWillUnmount() {
+        clearInterval(this.timerId)
+    }
+
+    // 渲染
+    render() {
+        return (
+            <div>
+                <h1>Hello, world!</h1>
+                <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+        );
+    }
+}
+
+root.render(<Clock/>);
+```
+
+此时页面的时间就会每秒刷新一次。
+
+## state 注意事项
+
+* 除了构造方法中使用`this.state={}`设置state外，其他地方设置state，使用`this.setState({})`。
+* state内的值是合并的，更新其中一个值不会影响其他值。
