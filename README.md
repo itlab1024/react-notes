@@ -163,7 +163,7 @@ import "./index.css"
 我选择[WebStorm](https://www.jetbrains.com/webstorm/)，jetbrains的精品工具。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071813964.png)
 # 第一个应用
-**之后的应用除特别说明，都是在index.js中**
+**之后的应用代码除特别说明，都是写在index.js中**
 ```javascript
 // 引入react相关依赖
 import React from 'react';
