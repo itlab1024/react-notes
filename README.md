@@ -276,7 +276,7 @@ const btn = (
 
 创建组件有两种方式，一种是使用js函数的方式，一种是使用ES6的class方式。
 
-### js类组件
+### JS类组件
 
 ```javascript
 // 引入react相关依赖
@@ -369,7 +369,7 @@ root.render(<Component1 name="one"/>)
 界面展示
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072135037.png)
 
-## class类组件
+### class类组件
 
 ```javascript
 // 引入react相关依赖
