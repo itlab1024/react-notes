@@ -16,7 +16,8 @@
 
 [React](https://react.docschina.org/)是用于构建用户界面的 JavaScript 库。
 很高兴有中文文档，这对于英语能力不强的人来说是非常友好的，我学习的途径主要是官网。
-
+**啪啪啪打脸：学了一天后发现中英文翻译还是有问题的，我用的版本是v18.2.0，比如root.render已经不用了，而是使用createRoot，但是中文官方并没有更新，所以我还是建议直接去看英文网站（搭配谷歌翻译、或者搭配中文网，但是以英文网站为主，没办法，文档中之前过时的用法，修改一遍）**
+**我是学习新东西，而且工作中也不用，就尽可能学习新的版本的东西，旧版本就不考虑了**
 # 初识
 
 官方提供了一个开始的样例，但是因为网络问题我没有打开，入门教程推荐我们使用原生html中引入js，并使用react的库方法，我尝试了下。
@@ -31,11 +32,14 @@
 <body>
 <div id="root"></div>
 <script type="text/babel">
-    const root = document.getElementById("root");
+    // dom容器，需要将内容填充到该容器中，root是index.html中的id=root的div元素
+    const domContainer  = document.getElementById("root");
+    // 创建一个React的Dom
+    const root = ReactDOM.createRoot(domContainer );
+    // 这是一个JSX语法
     const btn = <button>hello react</button>
-    ReactDOM.render(btn, root, function () {
-        alert("渲染完毕")
-    })
+    // 使用render渲染
+    root.render(btn)
 </script>
 <script crossorigin src="js/react.development.js"></script>
 <script crossorigin src="js/react-dom.development.js"></script>
@@ -146,31 +150,39 @@ react脚手架会给我们在src中生成很多文件，这些文件可以删掉
 然后重新创建index.css和index.js文件。
 接下来在index.js中引入react依赖
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 ```
 # 开发工具
 我选择[WebStorm](https://www.jetbrains.com/webstorm/)，jetbrains的精品工具。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071813964.png)
 # 第一个应用
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-// 编写第一个应用
-// root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// dom容器，需要将内容填充到该容器中，root是index.html中的id=root的div元素
+const domContainer  = document.getElementById("root");
+// 创建一个React的Dom
+const root = ReactDOM.createRoot(domContainer );
+// 这是一个JSX语法
 const btn = <button>hello react</button>
-ReactDOM.render(btn, root)
+// 使用render渲染
+root.render(btn)
 ```
 界面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211071820296.png)
 **说明**：
 * import是导入资源，这和java类似。
-* root是一个div元素，react需要指定一个容器（就是这个root），将其他html元素放入该容器中。
+* domContainer是一个id=root的div元素，react需要指定一个容器（就是这个root），将其他html元素放入该容器中。
+* root是React创建的虚拟DOM对象
 * const btn = <button>hello react</button> 的语法很奇怪，他是一个JSX语法。
-* ReactDOM.render(<button>hello react</button>, root)是react的渲染方法，第一个参数是元素内容，第二个是容器，其实还有第三个是回调方法。
+* root.render(<button>hello react</button>)是react的渲染方法，参数是元素内容。
 # JSX简介
 ## 什么是JSX？
 ```jsx
@@ -191,12 +203,14 @@ const element = <h1>{sayHello}</h1>;
 ```
 也可以在{}中使用函数，比如
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-// 编写第一个应用
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 // 定义一个js函数
 function appendMsg(msg) {
     return msg + " I am learning react";
@@ -204,7 +218,7 @@ function appendMsg(msg) {
 const sayHello = "Hello, world!"
 // 在JSX中使用appengMsg方法处理sayHello，并放入h1标签中。
 const btn = <h1>{appendMsg(sayHello)}</h1>;
-ReactDOM.render(btn, root)
+root.render(btn, root)
 ```
 运行结果如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072058040.png)
@@ -223,11 +237,14 @@ const btn = (
 创建组件有两种方式，一种是使用js函数的方式，一种是使用ES6的class方式。
 ### js类组件
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 
 // 使用js的方式定义组件
 function Component1() {
@@ -238,7 +255,7 @@ function Component1() {
     )
 }
 
-ReactDOM.render(<Component1/>, root)
+root.render(<Component1/>)
 ```
 render的第一个参数要使用标签方式<Component1/>，必须是关闭标签，也可以使用<Component1></Component1>，为了简洁就可以使用前者的简写方式。
 
@@ -247,11 +264,14 @@ render的第一个参数要使用标签方式<Component1/>，必须是关闭标�
 该种方式能很好的定义一个组件，但是更推荐使用ES6 Class的方式。
 ### class类组件
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 
 // 使用class的方式定义组件
 class Component1 extends React.Component {
@@ -265,18 +285,21 @@ class Component1 extends React.Component {
     }
 }
 
-ReactDOM.render(<Component1/>, root)
+root.render(<Component1/>, root)
 ```
 页面效果跟js定义组件的一样。
 ## 渲染组件
 当组件使用户自定义的组件的时候，它会将 JSX 所接收的属性（attributes）以及子组件（children）转换为单个对象传递给组件，这个对象被称之为 “props”。
 ### JS类组件
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 
 // 使用js的方式定义组件
 function Component1(props) {
@@ -287,7 +310,7 @@ function Component1(props) {
     )
 }
 
-ReactDOM.render(<Component1 name = "one"/>, root)
+root.render(<Component1 name = "one"/>, root)
 ```
 解析：<Component1 name = "one"/>传递了一个属性name，值是one，该值传递给里js函数组件的props，JSX中通过props.name获取到了值。
 
@@ -295,11 +318,14 @@ ReactDOM.render(<Component1 name = "one"/>, root)
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072135037.png)
 ## class类组件
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 
 // 使用class的方式定义组件
 class Component1 extends React.Component {
@@ -313,17 +339,20 @@ class Component1 extends React.Component {
     }
 }
 
-ReactDOM.render(<Component1 name = "one"/>, root)
+root.render(<Component1 name = "one"/>, root)
 ```
 解释：class组件类似js组件，不过获取属性的时候使用的是this.props.name。
 ## 组合组件
 组件可以互相组合
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 
 // 使用class的方式定义组件
 class Component1 extends React.Component {
@@ -343,7 +372,7 @@ class Component2 extends React.Component {
     }
 }
 
-ReactDOM.render(<Component1/>, root)
+root.render(<Component1/>, root)
 ```
 上面的例子中，Component1中就嵌套了组件Component2
 界面显示如下：
@@ -355,11 +384,14 @@ state类似于props，但是state是私有的，完全被当前组件自身控�
 ## 定义state属性
 可以通过构造函数定义state中的属性
 ```javascript
+// 引入react相关依赖
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
 // root的元素是index.html中的<div id="root"></div>
-const root = document.getElementById("root");
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 
 // 使用class的方式定义组件
 class Component1 extends React.Component {
@@ -378,7 +410,7 @@ class Component1 extends React.Component {
     }
 }
 
-ReactDOM.render(<Component1/>, root)
+root.render(<Component1/>, root)
 ```
 解释：constructor(props) 是构造函数的定义，需要注意的时候，super(props)不能被省略（必须是函数体的第一行有效代码（放到第一行））
 this.state = {name: "刘备"}，就是初始化的时候给组件state增加一个属性name，并且初始值="刘备"
