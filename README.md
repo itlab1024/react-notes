@@ -222,7 +222,7 @@ function appendMsg(msg) {
 const sayHello = "Hello, world!"
 // 在JSX中使用appengMsg方法处理sayHello，并放入h1标签中。
 const btn = <h1>{appendMsg(sayHello)}</h1>;
-root.render(btn, root)
+root.render(btn)
 ```
 运行结果如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072058040.png)
@@ -289,7 +289,7 @@ class Component1 extends React.Component {
     }
 }
 
-root.render(<Component1/>, root)
+root.render(<Component1/>)
 ```
 页面效果跟js定义组件的一样。
 ## 渲染组件
@@ -314,7 +314,7 @@ function Component1(props) {
     )
 }
 
-root.render(<Component1 name = "one"/>, root)
+root.render(<Component1 name = "one"/>)
 ```
 解析：<Component1 name = "one"/>传递了一个属性name，值是one，该值传递给里js函数组件的props，JSX中通过props.name获取到了值。
 
@@ -343,7 +343,7 @@ class Component1 extends React.Component {
     }
 }
 
-root.render(<Component1 name = "one"/>, root)
+root.render(<Component1 name = "one"/>)
 ```
 解释：class组件类似js组件，不过获取属性的时候使用的是this.props.name。
 ## 组合组件
@@ -376,7 +376,7 @@ class Component2 extends React.Component {
     }
 }
 
-root.render(<Component1/>, root)
+root.render(<Component1/>)
 ```
 上面的例子中，Component1中就嵌套了组件Component2
 界面显示如下：
@@ -424,7 +424,7 @@ class Component1 extends React.Component {
     }
 }
 
-root.render(<Component1/>, root)
+root.render(<Component1/>)
 ```
 解释：constructor(props) 是构造函数的定义，需要注意的是，super(props)不能被省略（必须是函数体的第一行有效代码（放到第一行））
 this.state = {name: "刘备"}，就是初始化的时候给组件state增加一个属性name，并且初始值="刘备"
