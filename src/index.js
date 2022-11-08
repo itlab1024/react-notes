@@ -15,5 +15,4 @@ function Component1() {
         </div>
     )
 }
-
 root.render(<Component1/>)
