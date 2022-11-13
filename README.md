@@ -268,7 +268,7 @@ const btn = (
 )
 ```
 
-# 组件
+# 组件和props
 
 组件，从概念上类似于 JavaScript 函数。它接受任意的入参（即 “props”），并返回用于描述页面展示内容的 React 元素。
 
@@ -438,6 +438,64 @@ root.render(<Component1/>)
 界面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072201394.png)
 
+## 批量参数
+
+首先看一个普通的参数传递
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+function Component1(props) {
+    const {name, age} = props
+    return (
+        <div>
+            <h1>姓名：{name}</h1>
+            <h1>年龄：{age}</h1>
+        </div>
+    )
+}
+root.render(<Component1 name="one" age="12"/>)
+```
+
+上面是没有问题的，但是如果有很多参数，就有些麻烦了。
+
+怎么做呢，可以将很多参数封装到一个对象中。
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+function Component1(props) {
+    const {name, age} = props
+    return (
+        <div>
+            <h1>姓名：{name}</h1>
+            <h1>年龄：{age}</h1>
+        </div>
+    )
+}
+// 定义一个对象，通过{...p将该对象传递}
+const p = {name: "刘备", age: 33}
+root.render(<Component1 {...p}/>)
+```
+
+
+
 # React Tools
 
 React为我们提供了一个调试工具。可以在浏览器的扩展商店中下载安装
@@ -449,7 +507,7 @@ React为我们提供了一个调试工具。可以在浏览器的扩展商店中
 点击component就能够看到props等信息
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211082057363.png)
 
-# State&生命周期
+# State
 
 ## 什么是state？
 
@@ -495,6 +553,41 @@ root.render(<Component1/>)
 this.state = {name: "刘备"}，就是初始化的时候给组件state增加一个属性name，并且初始值="刘备"
 页面显示如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211072214326.png)
+
+# state简化设置
+
+上面的state可以放到构造器中，但是也有更简单的方法，就是放到外面使用state = {}的方式设置
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用class的方式定义组件
+class Component1 extends React.Component {
+
+    // state的简化设置方法
+    state = {name: "刘备"}
+
+    // render是不能忽略的，写入自己的JSX代码
+    render() {
+        return (
+            <div>
+                <h1>组件1{this.state.name}</h1>
+            </div>
+        )
+    }
+}
+
+root.render(<Component1/>)
+```
+
+可以看到，我将构造函数去掉了，使用`state = {name: "刘备"}`方法设置了state。
 
 ## 更改state值
 
@@ -601,3 +694,547 @@ root.render(<Clock/>);
 
 * 除了构造方法中使用`this.state={}`设置state外，其他地方设置state，使用`this.setState({})`。
 * state内的值是合并的，更新其中一个值不会影响其他值。
+
+# 组件生命周期
+
+组件从创建（挂载）到销毁（卸载），由生到死的的整个过程就是组件的生命周期。在整个生命周期中会调用内置的钩子函数。
+
+## 常用钩子函数
+
+常用生命周期图如下：
+
+![image-20221113210333392](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211132103451.png)
+
+接下来试试各种生命周期钩子函数的使用。
+
+```
+
+```
+
+当打开页面什么也不再操作的时候，日志如图
+
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211132117105.png)
+
+先执行了构造函数，然后执行render函数挂载页面，挂载完毕后执行了钩子函数componentDidMount。
+
+接下来点击更改消息按钮。
+
+![image-20221113211816707](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211132118756.png)
+
+请注意红色区域，左侧信息已经更新成功，右侧是日志，重新掉了用render进行页面的渲染。渲染完毕之后调用了componentDidUpdate函数。
+
+接下来点击卸载组件
+
+![image-20221113211943169](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211132119236.png)
+
+左侧页面空白了，因为组件被卸载了，右侧日志红色区域，说明组件卸载前调用了钩子函数componentWillUnmount。
+
+# 不常用钩子函数
+
+常用的也有不常用的，那么就看下所有生命周期。除了下main三个绿色是常用的，上面的三个getDevicedStateFromProps、shouldComponentUpdate、getSnapshotBeforeUpdate是不常用的函数。
+
+![image-20221113210447206](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211132104307.png)
+
+
+
+# 事件处理（Event）
+
+事件就是点击、鼠标滑动等动作。react的组件中支持事件操作。
+
+## 原生事件
+
+比如在原生html中可以给按钮定义点击事件
+
+```html
+<button onclick="activateLasers()">
+  Activate Lasers
+</button>
+```
+
+打开页面，点击按钮效果如下：
+
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211112124607.png)
+
+## React中的事件
+
+在react中也可以以类似的方式使用，不过在react中事件的名字是驼峰命名，并且等号后面要使用`{this.这里是事件名}`，特别注意，不需要用双引号括起来。
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 定义Clock组件
+class IButton extends React.Component {
+    // 渲染
+    render() {
+        return (
+            <button onClick={this.clickBtn}>戳我</button>
+        );
+    }
+    clickBtn() {
+        alert("按钮被点击了")
+    }
+}
+
+root.render(<IButton/>);
+```
+
+上面的例子，功能跟原生示例一样，特别需要注意`<button onClick={this.clickBtn}>戳我</button>`。
+
+## 事件的默认行为
+
+在原生html中可以使用return false来阻止事件的默认行为
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原生html阻止表单提交事件</title>
+</head>
+<body>
+<form action="https://itlab1024.com">
+    <button type="submit" onclick="alert('我被点击了');return false">戳我</button>
+</form>
+</body>
+</html>
+```
+
+如果没有return false代码，表单会被提交到https://itlab1024.com，加了这个就会阻止默认的事件。
+
+但是在react中就不能这样做，如何做呢？看如下代码：
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 定义Clock组件
+class IButton extends React.Component {
+    // 渲染
+    render() {
+        return (
+            <form action="https://itlab1024.com">
+                <button type="submit" onClick={this.clickBtn}>戳我</button>
+            </form>
+        );
+    }
+    clickBtn(e) {
+        // 阻止默认事件
+        e.preventDefault()
+    }
+}
+
+root.render(<IButton/>);
+```
+
+# 条件渲染
+
+我们可以通过给组件传递参数，组件内部通过参数判断动态使用组件进行渲染。举个例子，传递一个参数，isTeacher，如果是true就展示`老师`，否则展示`学生`
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 定义Teacher组件
+class Teacher extends React.Component {
+    // 渲染
+    render() {
+        return (
+           <div>老师</div>
+        );
+    }
+}
+
+// 定义Student组件
+class Student extends React.Component {
+    // 渲染
+    render() {
+        return (
+            <div>学生</div>
+        );
+    }
+}
+
+// 复杂组件，传递参数，动态渲染
+class Complex extends React.Component{
+    isTeacher = this.props.isTeacher;
+    render() {
+        if (this.isTeacher) {
+            return (<Teacher/>)
+        }
+        return <Student/>
+    }
+}
+
+root.render(<Complex isTeacher = {false}/>);
+```
+
+上面的代码，我定义了三个类式组件，Teacher、Student和Complex，其中Complex中我从props中接收参数，参数是通过`<Complex isTeacher = {false}/>`传递的，可以更改他的值，就可以看到，动态渲染出来了学生和老师的组件。
+
+## 元素变量
+
+react支持使用变量来存储元素，这样就能动态的渲染部分组件。
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 定义登录组件
+class Login extends React.Component {
+    onClick = this.props.onClick
+
+    // 渲染
+    render() {
+        return (
+            <button onClick={this.onClick}>登录</button>
+        );
+    }
+}
+
+// 定义登出组件
+class Logout extends React.Component {
+    // 渲染
+    onClick = this.props.onClick
+
+    // 渲染
+    render() {
+        return (
+            <button onClick={this.onClick}>登出</button>
+        );
+    }
+}
+
+// 登录控制器
+class LoginControl extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {isLoggedIn: false};
+    }
+
+    loginClickFunc = () => {
+        this.setState({isLoggedIn: true});
+    }
+
+    logoutClickFunc = () => {
+        this.setState({isLoggedIn: false});
+    }
+
+    render() {
+        const isLoggedIn = this.state.isLoggedIn;
+        let button;
+        if (isLoggedIn) {
+            button = <Logout onClick={this.logoutClickFunc}/>;
+        } else {
+            button = <Login onClick={this.loginClickFunc}/>;
+        }
+        return (
+            <div>
+                {button}
+            </div>
+        );
+    }
+}
+
+root.render(<LoginControl/>);
+```
+
+使用` let button;`定义一个变量，通过条件设置不同的元素。通过点击事件进行了更改。
+
+**特别说明**：对于组件中的点击事件(`onClick={this.logoutClickFunc}`)，logoutClickFunc函数一定要使用箭头方式定义，就比如上面的：` loginClickFunc = () => {}`，否则提示this有问题。
+
+![image-20221112143755518](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211121437660.png)
+
+对于this问题，我看官方文档的是定义一个变量接收函数，比如：
+
+![image-20221112143854046](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211121438118.png)
+
+其实不用这么麻烦，使用箭头函数定义即可。
+
+## 内联IF函数与&&符
+
+就是说if条件可以和JSX代码通过&&合并
+
+比如
+
+```react
+class Login extends React.Component {
+    // 渲染
+    render() {
+        if(this.props.isLoggedIn) {
+            return <div>登录中</div>
+        }
+    }
+}
+```
+
+就可以修改为：
+
+```react
+class Login extends React.Component {
+    // 渲染
+    render() {
+        return (<div>
+            {
+                this.props.isLoggedIn && <div>登录中</div>
+            }
+        </div>)
+    }
+}
+```
+
+## 三目表达式
+
+```react
+class Login extends React.Component {
+    // 渲染
+    render() {
+        return (<div>
+            {
+                this.props.isLoggedIn ? <div>已登录中</div> : <div>未登录</div>
+            }
+        </div>)
+    }
+}
+```
+
+## 防止组件渲染
+
+在极少数情况下，您可能希望组件隐藏自己，即使它是由另一个组件呈现的。为此返回`null`而不是其渲染输出。虽然不渲染，但是生命周期钩子函数还是会被出发的，比如`componentDidUpdate`.
+
+# 列表和Keys
+
+列表渲染，主要问题是如何通过数组数据转化为html标签，比如一个数组[1, 2, 3, 4]，需要将其使用<ul><li></li></ul>来展示。
+
+```
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+
+// root的元素是index.html中的<div id="root"></div>
+class ListComponent extends React.Component {
+    render() {
+        const numbers = [1, 2, 3, 4];
+        const listItems = numbers.map((number) =>
+            <li>{number}</li>
+        );
+        return (
+            <ul>{listItems}</ul>
+        )
+
+    }
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<ListComponent/>);
+```
+
+![image-20221112153845309](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211121538341.png)
+
+虽然能够显示出来，但是控制台提示了一个错误
+
+![image-20221112154101142](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211121541177.png)
+
+意思是每个子元素应该有一个唯一的key属性。
+
+可以给<li>标签增加一个key属性：
+
+```react
+ <li key={number.toString()}>{number}</li>
+```
+
+警告消失了，但是不明白这个key有啥用。
+
+## Key说明
+
+键帮助 React 识别哪些条目(item,上面的li标签)已更改、添加或删除。应为数组内的元素提供键，以使元素具有稳定的标识。
+
+选择键的最佳方法是使用一个字符串，该字符串在其兄弟项中唯一标识一个列表项。大多数情况下，使用数据中的 ID 作为键，就像上面我的做法那样。
+
+如果没有稳定的条目ID，可以使用index，
+
+```react
+const todoItems = todos.map((todo, index) =>
+  <li key={index}>
+    {todo.text}
+  </li>
+);
+```
+
+但是如果item顺序可能发生变化，就不推荐使用index，这会对性能产生负面影响，并可能导致组件状态出现问题。
+
+key在兄弟节点中唯一。
+
+
+
+## 提取组件
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+
+// 该组件就返回一个<li></li>
+class LiComponent extends React.Component {
+    render() {
+        return (
+        	// 这里无需指定key
+            <li>{this.props.num}</li>
+        )
+    }
+
+}
+
+class UlComponent extends React.Component {
+    render() {
+        const numbers = [1, 2, 3, 4]
+        const listItems = numbers.map((number) =>
+        	// 这里需要指定key
+            <LiComponent num={number} key={number.toString()}/>
+        )
+        return <ul> {listItems}</ul>
+    }
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<UlComponent/>);
+```
+
+运行结果如下：
+
+![image-20221112201929843](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211122019896.png)
+
+# 表单
+
+## 受控组件
+
+由 React 控制其值的输入表单元素称为“受控组件”。也就是说表单的值通过react中的state控制。
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+    // 初始化state
+    state = {
+        // 保存输入框username的值
+        "username": ""
+    }
+
+    render() {
+        return (
+            <form onSubmit={this.handlerSubmit}>
+                <input name="username" value={this.state.username} type={"text"} onChange={this.handlerChange}/>
+                <button type={"submit"}>提交</button>
+            </form>
+        )
+    }
+
+    // 处理提交
+    handlerSubmit = (e) => {
+        // 阻止表单的默认提交事件
+        e.preventDefault()
+        // 打印用户输入的username的值
+        console.log("username", this.state.username)
+    }
+    // username输出框change事件
+    handlerChange = (e) => {
+        // 将输输入框的值，维护到state中
+        this.setState({"username": e.target.value})
+    }
+}
+root.render(<Component1/>)
+```
+
+上面的代码能够实现功能，当输入用户名密码的时候，能够看到state中username和password的变化。
+
+![image-20221113183100595](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211131831649.png)
+
+这就是受控组件。
+
+上面的代码还是可以优化的，比如onchange的方法内容就很相似，那么可以通过使用一个onchange方法，传递不同的参数来解决。
+
+```react
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+    // 初始化state
+    state = {
+        // 初始化输入框username的值
+        "username": '',
+        // 初始化输入框password的值
+        "password": ''
+    }
+
+    render() {
+        return (
+            <form onSubmit={this.handlerSubmit}>
+                <label>用户名：</label>
+                <input name="username" value={this.state.username} type={"text"} onChange={this.handlerChange('username')}/>
+                <label>密码：</label><input name="password" value={this.state.password} type={"text"} onChange={this.handlerChange('password')}/>
+                <button type={"submit"}>提交</button>
+            </form>
+        )
+    }
+
+    // 处理提交
+    handlerSubmit = (e) => {
+        // 阻止表单的默认提交事件
+        e.preventDefault()
+    }
+
+    // 统一处理change
+    handlerChange = (dataType) => {
+        return (e) => {
+            // 将输输入框的值，维护到state中，这里必须使用[dataType]，否则他会创建key=dataType，而不是使用传递进来的参数
+            this.setState({[dataType]: e.target.value})
+        }
+    }
+}
+
+root.render(<Component1/>)
+```
+
+不过我依然觉得挺麻烦，看到官网推荐了一个https://formik.org/来解决react中的form问题，之后用到学习下。
+

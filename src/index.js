@@ -7,42 +7,50 @@ import "./index.css"
 const domContainer = document.getElementById("root");
 const root = ReactDOM.createRoot(domContainer);
 
-// 定义Clock组件
-class Clock extends React.Component {
-    // 构造函数
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+    state = {message: "初始化"}
+
     constructor(props) {
         super(props);
-        this.state = {date: new Date()};
+        console.log("构造函数执行")
     }
 
-    // 该方法用于设置状态，特别注意要使用setState方法，而不是使用this.state = {}的方式。
-    tick() {
-        this.setState({
-            date: new Date()
-        });
-    }
-
-    // 创建一个定时器
-    componentDidMount() {
-        this.timerId = setInterval(() => {
-            this.tick()
-        }, 1000)
-    }
-
-    // 销毁定时器
-    componentWillUnmount() {
-        clearInterval(this.timerId)
-    }
-
-    // 渲染
     render() {
+        console.log("render执行")
         return (
             <div>
-                <h1>Hello, world!</h1>
-                <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+                <h1>{this.state.message}</h1>
+                <button onClick={this.unMountComponent}>卸载组件</button>
+                <button onClick={this.changeMessage}>更新信息</button>
             </div>
-        );
+        )
+    }
+
+    // 生命周期钩子函数：件挂载完毕调用
+    componentDidMount() {
+        console.log("组件挂载完毕后调用componentDidMount函数")
+    }
+
+    // 生命周期钩子函数：组件卸载之前调用
+    componentWillUnmount() {
+        console.log("组件卸载之前调用componentWillUnmount函数")
+    }
+
+    // 生命周期钩子函数：更新完成后调用
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("组件更新完成后调用componentDidUpdate函数")
+    }
+
+    // 自定义函数，卸载组件
+    unMountComponent = () => {
+        // 调用unmount方法卸载该组件
+        root.unmount()
+    }
+
+    changeMessage = () => {
+        this.setState({message: "更新后"})
     }
 }
 
-root.render(<Clock/>);
+root.render(<Component1/>)
