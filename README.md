@@ -735,7 +735,14 @@ root.render(<Clock/>);
 
 ![image-20221113210447206](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211132104307.png)
 
+使用代码验证
+```javascript
 
+```
+打开页面，第一次进入页面可以看到如下日志：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211151430830.png)
+再点击更新后，展示下图中红色区域的日志
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211151431671.png)
 
 # 事件处理（Event）
 
