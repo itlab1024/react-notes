@@ -1217,10 +1217,11 @@ root.render(<UlComponent/>);
 ![image-20221112201929843](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211122019896.png)
 
 # 表单
-
+表单主要分为非受控组件和受控组件。
 ## 受控组件
 
 由 React 控制其值的输入表单元素称为“受控组件”。也就是说表单的值通过react中的state控制。
+在大多数情况下，我们建议使用受控组件来实现表单。在受控组件中，表单数据由 React 组件处理。
 
 ```react
 // 引入react相关依赖
@@ -1323,4 +1324,159 @@ root.render(<Component1/>)
 ```
 
 不过我依然觉得挺麻烦，看到官网推荐了一个https://formik.org/来解决react中的form问题，之后用到学习下。
+## 非受控组件
+另一种方法是不受控制的组件，其中表单数据由 DOM 本身处理。
+表单元素自己维护 state。可以使用 ref 获取表单数据，比如文件选择组件就是一个非受控组件。
+
+# Refs和DOM
+Refs 提供了一种访问 DOM 节点或在 render 方法中创建的 React 元素的方法。
+通过在标签上使用ref属性来定义ref。ref的创建有多种形式，字符串形式、回调形式、createRef形式
+## 字符串形式
+字符串形式就是在标签中ref属性的值是一个字符串。
+> 特别注意：字符串形式是遗留的，也就是过期的，未来会被删除。建议使用回调形式或者createRef API形式。
+
+看如下示例：
+```javascript
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+
+  clickFunc = () => {
+    console.log(this)
+  }
+
+  render() {
+    return (
+            <div>
+              <input ref="name" name="name"/><br/>
+              <input ref="age" name="age"/><br/>
+              <button onClick={this.clickFunc}>点我</button>
+            </div>
+    )
+  }
+}
+
+root.render(<Component1/>)
+```
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211151926566.png)
+## 回调形式
+回调形式是说ref是一个回调函数，这个回调函数会接收到一个参数，该参数就是ref对应的元素，回调中通常会使用this.类属性名 = 接收到的参数。
+```js
+// 引入react相关依赖
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+
+  clickFunc = () => {
+    console.log(this)
+  }
+
+  render() {
+    return (
+            <div>
+              <input ref={ele => {this.name = ele}}/><br/>
+              <input ref={ele => {this.age = ele}}/><br/>
+              <button onClick={this.clickFunc}>点我</button>
+            </div>
+    )
+  }
+}
+
+root.render(<Component1/>)
+```
+`<input ref={ele => {this.name = ele}}/>` 中的ele就是回调的参数（该input自身），this.name=ele就是将当前元素给类实力中的name属性，
+以后就可以通过this.name.xxx操作。比如获取值：this.name.value。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152002206.png)
+**问题**：ref回调方式使用内联函数，当更新组件的时候，该回调函数会执行两次，但是官网说无关紧要，如果不想调用两次，则可以在类中函数，ref中调用该函数，
+例如：
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+
+    clickFunc = () => {
+        console.log(this)
+    }
+    updateFunc = () => {
+        this.setState({"btnMsg" : "点过了"})
+    }
+    state = {btnMsg : "点我"}
+    render() {
+        return (
+            <div>
+                <input ref={ele => {this.name = ele;console.log("input函数被调用")}}/><br/>
+                <input ref={ele => {this.age = ele}}/><br/>
+                <button onClick={this.clickFunc}>{this.state.btnMsg}</button>
+                <button onClick={this.updateFunc}>更新组件</button>
+            </div>
+        )
+    }
+}
+
+root.render(<Component1/>)
+```
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152015910.png)
+可以不使用内联函数
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+
+    clickFunc = () => {
+        console.log(this)
+    }
+    updateFunc = () => {
+        this.setState({"btnMsg" : "点过了"})
+    }
+    nameCallback = (ele) => {
+        this.name = ele
+        console.log("input函数被调用")
+    }
+    state = {btnMsg : "点我"}
+    render() {
+        return (
+            <div>
+                <input ref={this.nameCallback}/><br/>
+                <input ref={ele => {this.age = ele}}/><br/>
+                <button onClick={this.clickFunc}>{this.state.btnMsg}</button>
+                <button onClick={this.updateFunc}>更新组件</button>
+            </div>
+        )
+    }
+}
+
+root.render(<Component1/>)
+```
+运行结果如下：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152027092.png)
+## createRef API形式
 
