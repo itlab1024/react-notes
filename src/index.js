@@ -34,4 +34,4 @@ class Component1 extends React.Component {
     }
 }
 
-root.render(<Component1/>)
+root.render(<React.StrictMode><Component1/></React.StrictMode>)

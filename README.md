@@ -1480,3 +1480,49 @@ root.render(<Component1/>)
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152027092.png)
 ## createRef API形式
 
+
+# 严格模式
+严格模式是react提供的在开发环境下助力于提示、调试的功能，它可以提示比如不推荐的ref字符串形式等等。严格模式不会影响生产使用
+其实我之前写的代码都没有使用严格模式，在React tools上可以看到一个感叹号。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211161028806.png)
+这就是提示没有使用严格模式。
+可以在render的时候，使用`<React.StrictMode></React.StrictMode>`包裹组件即可。
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+    // 使用api的方式创建一个ref
+    myRef = React.createRef();
+
+    clickFunc = () => {
+        console.log(this)
+    }
+    updateFunc = () => {
+        this.setState({"btnMsg" : "点过了"})
+    }
+    nameCallback = (ele) => {
+        this.name = ele;
+        console.log("input函数被调用")
+    }
+    state = {btnMsg : "点我"}
+    render() {
+        return (
+            <div>
+                <input ref={this.nameCallback}/><br/>
+                <input ref={ele => {this.age = ele}}/><br/>
+                <button onClick={this.clickFunc}>{this.state.btnMsg}</button>
+                <button onClick={this.updateFunc}>更新组件</button>
+            </div>
+        )
+    }
+}
+// 此处React.StrictMode设置即启用了严格模式
+root.render(<React.StrictMode><Component1/></React.StrictMode>)
+```
