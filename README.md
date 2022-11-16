@@ -1501,7 +1501,7 @@ class Component1 extends React.Component {
     render() {
         return (
             <div>
-                <button>按钮</button>
+                <button >按钮</button>
             </div>
         )
     }
