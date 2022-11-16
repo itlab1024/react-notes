@@ -1479,7 +1479,49 @@ root.render(<Component1/>)
 运行结果如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152027092.png)
 ## createRef API形式
+直接看示例：
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
 
+// 使用js的方式定义组件
+class Component1 extends React.Component {
+    // 使用api的方式创建一个ref
+    nameRef = React.createRef();
+    ageRef = React.createRef();
+    clickFunc = () => {
+        console.log(this)
+    }
+
+    state = {btnMsg : "点我"}
+    render() {
+        return (
+            <div>
+                <input ref={this.nameRef}/><br/>
+                <input ref={this.ageRef}/><br/>
+                <button onClick={this.clickFunc}>{this.state.btnMsg}</button>
+            </div>
+        )
+    }
+}
+
+root.render(<Component1/>)
+```
+解析：在上面的代码中。我针对两个input元素分别设置了`ref={this.nameRef}`和`ref={this.ageRef}`,其中的nameRef和ageRef是我在类中通过
+`nameRef = React.createRef()`和`ageRef = React.createRef()`定义的两个ref，
+在元素上直接使用`ref={this.类中的ref属性}`定义即可。
+该种方式是官网推荐的方式，但是我觉得他也挺麻烦，也就是每个元素都要定义自己的ref类属性。
+如果我们想获取input的值，可以使用类似`this.nameRef.value`。因为this.nameRef就是元素本身。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211161034879.png)
+## Ref问题
+ref官方是要求不能过度使用的，也就是说能不用就不用。但是有时候确实不能不用。
+比如可以不使用的情况：一个input元素，onBlur的时候需要获取其自身的值，此时就可以不适用ref。直接传递一个函数，该函数可以接收到一个event。使用event.target.value就获得到了值。
+需要使用Ref的情况：还是上面的例子，但是我要获取的是其他的元素的值，此时就需要使用Ref了。
 
 # 严格模式
 严格模式是react提供的在开发环境下助力于提示、调试的功能，它可以提示比如不推荐的ref字符串形式等等。严格模式不会影响生产使用
