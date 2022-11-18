@@ -1831,7 +1831,7 @@ root.render(
 )
 ```
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181044711.png)
-## 兄弟组件间子组件传递
+## 兄弟组件间参数传递
 这使用props就不能实现了，得借助第三方工具，消息订阅。需要安装依赖
 ```shell
 npm i pubsub-js -S
