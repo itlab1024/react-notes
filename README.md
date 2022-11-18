@@ -16,6 +16,7 @@
 
 [React](https://react.docschina.org/)是用于构建用户界面的 JavaScript 库。
 很高兴有中文文档，这对于英语能力不强的人来说是非常友好的，需要注意的是，中文网会有翻译不正确的时候，最好对比中英两种语言。我学习的途径主要是官网、尚硅谷。
+
 # 初识
 
 官方提供了一个开始的样例，但是因为网络问题我没有打开，入门教程推荐我们使用原生html中引入js，并使用react的库方法，我尝试了下。
@@ -486,8 +487,6 @@ const p = {name: "刘备", age: 33}
 root.render(<Component1 {...p}/>)
 ```
 
-
-
 # React Tools
 
 React为我们提供了一个调试工具。可以在浏览器的扩展商店中下载安装
@@ -728,6 +727,7 @@ root.render(<Clock/>);
 ![image-20221113210447206](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211132104307.png)
 
 使用代码验证
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -787,6 +787,7 @@ class Component1 extends React.Component {
         // 这里可以修改state
         return state
     }
+
     //getSnapshotBeforeUpdate()在最近渲染的输出被提交到例如 DOM 之前被调用。它使组件能够在可能发生更改之前从 DOM 捕获一些信息（例如滚动位置）。此生命周期方法返回的任何值都将作为参数传递给componentDidUpdate().
     // 这种用例并不常见，但它可能出现在 UI 中，例如需要以特殊方式处理滚动位置的聊天线程。
 
@@ -810,6 +811,7 @@ class Component1 extends React.Component {
 
 root.render(<Component1/>)
 ```
+
 打开页面，第一次进入页面可以看到如下日志：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211151430830.png)
 再点击更新后，展示下图中红色区域的日志
@@ -824,8 +826,9 @@ root.render(<Component1/>)
 比如在原生html中可以给按钮定义点击事件
 
 ```html
+
 <button onclick="activateLasers()">
-  Activate Lasers
+    Activate Lasers
 </button>
 ```
 
@@ -835,7 +838,8 @@ root.render(<Component1/>)
 
 ## React中的事件
 
-在react中也可以以类似的方式使用，不过在react中事件的名字是驼峰命名，并且等号后面要使用`{this.这里是事件名}`，特别注意，不需要用双引号括起来。
+在react中也可以以类似的方式使用，不过在react中事件的名字是驼峰命名，并且等号后面要使用`{this.这里是事件名}`
+，特别注意，不需要用双引号括起来。
 
 ```react
 // 引入react相关依赖
@@ -919,7 +923,8 @@ root.render(<IButton/>);
 
 # 条件渲染
 
-我们可以通过给组件传递参数，组件内部通过参数判断动态使用组件进行渲染。举个例子，传递一个参数，isTeacher，如果是true就展示`老师`，否则展示`学生`
+我们可以通过给组件传递参数，组件内部通过参数判断动态使用组件进行渲染。举个例子，传递一个参数，isTeacher，如果是true就展示`老师`
+，否则展示`学生`
 
 ```react
 // 引入react相关依赖
@@ -965,7 +970,8 @@ class Complex extends React.Component{
 root.render(<Complex isTeacher = {false}/>);
 ```
 
-上面的代码，我定义了三个类式组件，Teacher、Student和Complex，其中Complex中我从props中接收参数，参数是通过`<Complex isTeacher = {false}/>`传递的，可以更改他的值，就可以看到，动态渲染出来了学生和老师的组件。
+上面的代码，我定义了三个类式组件，Teacher、Student和Complex，其中Complex中我从props中接收参数，参数是通过`<Complex isTeacher = {false}/>`
+传递的，可以更改他的值，就可以看到，动态渲染出来了学生和老师的组件。
 
 ## 元素变量
 
@@ -1042,7 +1048,8 @@ root.render(<LoginControl/>);
 
 使用` let button;`定义一个变量，通过条件设置不同的元素。通过点击事件进行了更改。
 
-**特别说明**：对于组件中的点击事件(`onClick={this.logoutClickFunc}`)，logoutClickFunc函数一定要使用箭头方式定义，就比如上面的：` loginClickFunc = () => {}`，否则提示this有问题。
+**特别说明**：对于组件中的点击事件(`onClick={this.logoutClickFunc}`)
+，logoutClickFunc函数一定要使用箭头方式定义，就比如上面的：` loginClickFunc = () => {}`，否则提示this有问题。
 
 ![image-20221112143755518](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211121437660.png)
 
@@ -1101,7 +1108,8 @@ class Login extends React.Component {
 
 ## 防止组件渲染
 
-在极少数情况下，您可能希望组件隐藏自己，即使它是由另一个组件呈现的。为此返回`null`而不是其渲染输出。虽然不渲染，但是生命周期钩子函数还是会被出发的，比如`componentDidUpdate`.
+在极少数情况下，您可能希望组件隐藏自己，即使它是由另一个组件呈现的。为此返回`null`
+而不是其渲染输出。虽然不渲染，但是生命周期钩子函数还是会被出发的，比如`componentDidUpdate`.
 
 # 列表和Keys
 
@@ -1167,8 +1175,6 @@ const todoItems = todos.map((todo, index) =>
 
 key在兄弟节点中唯一。
 
-
-
 ## 提取组件
 
 ```react
@@ -1209,7 +1215,9 @@ root.render(<UlComponent/>);
 ![image-20221112201929843](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211122019896.png)
 
 # 表单
+
 表单主要分为非受控组件和受控组件。
+
 ## 受控组件
 
 由 React 控制其值的输入表单元素称为“受控组件”。也就是说表单的值通过react中的state控制。
@@ -1316,18 +1324,24 @@ root.render(<Component1/>)
 ```
 
 不过我依然觉得挺麻烦，看到官网推荐了一个https://formik.org/来解决react中的form问题，之后用到学习下。
+
 ## 非受控组件
+
 另一种方法是不受控制的组件，其中表单数据由 DOM 本身处理。
 表单元素自己维护 state。可以使用 ref 获取表单数据，比如文件选择组件就是一个非受控组件。
 
 # Refs和DOM
+
 Refs 提供了一种访问 DOM 节点或在 render 方法中创建的 React 元素的方法。
 通过在标签上使用ref属性来定义ref。ref的创建有多种形式，字符串形式、回调形式、createRef形式
+
 ## 字符串形式
+
 字符串形式就是在标签中ref属性的值是一个字符串。
 > 特别注意：字符串形式是遗留的，也就是过期的，未来会被删除。建议使用回调形式或者createRef API形式。
 
 看如下示例：
+
 ```javascript
 // 引入react相关依赖
 import React from 'react';
@@ -1341,26 +1355,33 @@ const root = ReactDOM.createRoot(domContainer);
 // 使用js的方式定义组件
 class Component1 extends React.Component {
 
-  clickFunc = () => {
-    console.log(this)
-  }
+    clickFunc = () => {
+        console.log(this)
+    }
 
-  render() {
-    return (
+    render() {
+        return (
             <div>
-              <input ref="name" name="name"/><br/>
-              <input ref="age" name="age"/><br/>
-              <button onClick={this.clickFunc}>点我</button>
+                <input ref="name" name="name"/>
+                <br/>
+                <input ref="age" name="age"/>
+                <br/>
+                <button onClick={this.clickFunc}>点我</button>
             </div>
-    )
-  }
+        )
+    }
 }
 
 root.render(<Component1/>)
 ```
+
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211151926566.png)
+
 ## 回调形式
-回调形式是说ref是一个回调函数，这个回调函数会接收到一个参数，该参数就是ref对应的元素，回调中通常会使用this.类属性名 = 接收到的参数。
+
+回调形式是说ref是一个回调函数，这个回调函数会接收到一个参数，该参数就是ref对应的元素，回调中通常会使用this.类属性名 =
+接收到的参数。
+
 ```js
 // 引入react相关依赖
 import React from 'react';
@@ -1374,28 +1395,36 @@ const root = ReactDOM.createRoot(domContainer);
 // 使用js的方式定义组件
 class Component1 extends React.Component {
 
-  clickFunc = () => {
-    console.log(this)
-  }
+    clickFunc = () => {
+        console.log(this)
+    }
 
-  render() {
-    return (
+    render() {
+        return (
             <div>
-              <input ref={ele => {this.name = ele}}/><br/>
-              <input ref={ele => {this.age = ele}}/><br/>
-              <button onClick={this.clickFunc}>点我</button>
+                <input ref={ele => {
+                    this.name = ele
+                }}/>
+                <br/>
+                <input ref={ele => {
+                    this.age = ele
+                }}/>
+                <br/>
+                <button onClick={this.clickFunc}>点我</button>
             </div>
-    )
-  }
+        )
+    }
 }
 
 root.render(<Component1/>)
 ```
+
 `<input ref={ele => {this.name = ele}}/>` 中的ele就是回调的参数（该input自身），this.name=ele就是将当前元素给类实力中的name属性，
 以后就可以通过this.name.xxx操作。比如获取值：this.name.value。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152002206.png)
 **问题**：ref回调方式使用内联函数，当更新组件的时候，该回调函数会执行两次，但是官网说无关紧要，如果不想调用两次，则可以在类中函数，ref中调用该函数，
 例如：
+
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1412,14 +1441,22 @@ class Component1 extends React.Component {
         console.log(this)
     }
     updateFunc = () => {
-        this.setState({"btnMsg" : "点过了"})
+        this.setState({"btnMsg": "点过了"})
     }
-    state = {btnMsg : "点我"}
+    state = {btnMsg: "点我"}
+
     render() {
         return (
             <div>
-                <input ref={ele => {this.name = ele;console.log("input函数被调用")}}/><br/>
-                <input ref={ele => {this.age = ele}}/><br/>
+                <input ref={ele => {
+                    this.name = ele;
+                    console.log("input函数被调用")
+                }}/>
+                <br/>
+                <input ref={ele => {
+                    this.age = ele
+                }}/>
+                <br/>
                 <button onClick={this.clickFunc}>{this.state.btnMsg}</button>
                 <button onClick={this.updateFunc}>更新组件</button>
             </div>
@@ -1429,8 +1466,10 @@ class Component1 extends React.Component {
 
 root.render(<Component1/>)
 ```
+
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152015910.png)
 可以不使用内联函数
+
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1447,18 +1486,23 @@ class Component1 extends React.Component {
         console.log(this)
     }
     updateFunc = () => {
-        this.setState({"btnMsg" : "点过了"})
+        this.setState({"btnMsg": "点过了"})
     }
     nameCallback = (ele) => {
         this.name = ele
         console.log("input函数被调用")
     }
-    state = {btnMsg : "点我"}
+    state = {btnMsg: "点我"}
+
     render() {
         return (
             <div>
-                <input ref={this.nameCallback}/><br/>
-                <input ref={ele => {this.age = ele}}/><br/>
+                <input ref={this.nameCallback}/>
+                <br/>
+                <input ref={ele => {
+                    this.age = ele
+                }}/>
+                <br/>
                 <button onClick={this.clickFunc}>{this.state.btnMsg}</button>
                 <button onClick={this.updateFunc}>更新组件</button>
             </div>
@@ -1468,10 +1512,14 @@ class Component1 extends React.Component {
 
 root.render(<Component1/>)
 ```
+
 运行结果如下：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152027092.png)
+
 ## createRef API形式
+
 直接看示例：
+
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1490,7 +1538,8 @@ class Component1 extends React.Component {
         console.log(this)
     }
 
-    state = {btnMsg : "点我"}
+    state = {btnMsg: "点我"}
+
     render() {
         return (
             <div>
@@ -1504,23 +1553,28 @@ class Component1 extends React.Component {
 
 root.render(<Component1/>)
 ```
+
 解析：在上面的代码中。我针对两个input元素分别设置了`ref={this.nameRef}`和`ref={this.ageRef}`,其中的nameRef和ageRef是我在类中通过
 `nameRef = React.createRef()`和`ageRef = React.createRef()`定义的两个ref，
 在元素上直接使用`ref={this.类中的ref属性}`定义即可。
 该种方式是官网推荐的方式，但是我觉得他也挺麻烦，也就是每个元素都要定义自己的ref类属性。
 如果我们想获取input的值，可以使用类似`this.nameRef.value`。因为this.nameRef就是元素本身。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211161034879.png)
+
 ## Ref问题
+
 ref官方是要求不能过度使用的，也就是说能不用就不用。但是有时候确实不能不用。
 比如可以不使用的情况：一个input元素，onBlur的时候需要获取其自身的值，此时就可以不适用ref。直接传递一个函数，该函数可以接收到一个event。使用event.target.value就获得到了值。
 需要使用Ref的情况：还是上面的例子，但是我要获取的是其他的元素的值，此时就需要使用Ref了。
 
 # 严格模式
+
 严格模式是react提供的在开发环境下助力于提示、调试的功能，它可以提示比如不推荐的ref字符串形式等等。严格模式不会影响生产使用
 其实我之前写的代码都没有使用严格模式，在React tools上可以看到一个感叹号。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211161028806.png)
 这就是提示没有使用严格模式。
 可以在render的时候，使用`<React.StrictMode></React.StrictMode>`包裹组件即可。
+
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1535,11 +1589,335 @@ class Component1 extends React.Component {
     render() {
         return (
             <div>
-                <button >按钮</button>
+                <button>按钮</button>
             </div>
         )
     }
 }
+
 // 此处React.StrictMode设置即启用了严格模式
 root.render(<React.StrictMode><Component1/></React.StrictMode>)
 ```
+
+# 静态类型检查
+
+props类型检查有多种方式，需要借助第三方库，有propsTypes、Flow、和TypeScript。
+出于性能方面的考虑，propTypes 仅在开发模式下进行检查
+
+## propTypes
+
+需要安装该库
+
+```shell
+npm install --save prop-types
+```
+
+具体使用看代码：
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+// 1.需要引入PropTypes依赖
+import PropTypes from 'prop-types';
+// 引入样式文件
+import "./index.css"
+// root的元素是index.html中的<div id="root"></div>
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+// 使用js的方式定义组件
+class PropsTypeComponent extends React.Component {
+    render() {
+        return (
+            <div>
+                接收参数:{this.props.intValue}
+            </div>
+        )
+    }
+}
+
+// 2.定义props值的类型等信息
+PropsTypeComponent.propTypes = {
+    // 定义intvalue是数字，并且是必须传递的。
+    intValue: PropTypes.number.isRequired
+}
+
+root.render(
+    <React.StrictMode>
+        {/*这里我传递的intValue是字符串*/}
+        <PropsTypeComponent intValue="1"/>
+    </React.StrictMode>
+)
+```
+
+打开浏览器运行，会看到控制台有警告日志
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181011461.png)
+
+## Flow & TypeScript
+
+这两项是内容比较多，以后用到的时候再学习。先学习react基本知识。
+
+# 组件组合
+
+组件可能是组合的形式，一个父组件可能有多个子组件
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import "./index.css"
+
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+class Header extends React.Component {
+    render() {
+        return <div>头部组件</div>
+    }
+}
+
+class Content extends React.Component {
+    render() {
+        return <div>内容组件</div>
+    }
+}
+
+class Footer extends React.Component {
+    render() {
+        return <div>底部组件</div>
+    }
+}
+
+class CombinedComponent extends React.Component {
+    render() {
+        return (
+            <div>
+                <Header/>
+                <Content/>
+                <Footer/>
+            </div>
+        )
+    }
+}
+
+root.render(
+    <React.StrictMode>
+        <CombinedComponent/>
+    </React.StrictMode>
+)
+```
+
+CombinedComponent组件中有Header、Content、Footer三个子组件。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181019647.png)
+
+# 组件通信
+
+通常组件通信使用props即可，但有的时候又做不到，需要使用其他方法，接下来具体来尝试下。
+
+## 父组件给子组件传递参数
+
+使用props即可实现。
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import "./index.css"
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+class Header extends React.Component {
+  render() {
+    return <div>头部组件<h1>接收父组件参数:{this.props.parentComponentName}</h1></div>
+  }
+}
+
+class Content extends React.Component {
+  render() {
+    return <div>内容组件</div>
+  }
+}
+
+class Footer extends React.Component {
+  render() {
+    return <div>底部组件</div>
+  }
+}
+
+class CombinedComponent extends React.Component {
+  render() {
+    return (
+            <div>
+              <Header parentComponentName="Combined"/>
+              <Content/>
+              <Footer/>
+            </div>
+    )
+  }
+}
+root.render(
+        <React.StrictMode>
+          <CombinedComponent/>
+        </React.StrictMode>
+)
+```
+
+在Combined中使用`<Header parentComponentName="Combined"/>`的方式将Combined通过props传递给Header组件。
+在Header中通过`{this.props.parentComponentName}`获得父组件传递过来的值。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181023142.png)
+
+## 子组件给父组件传递参数
+
+也可以使用props，但是此时不能传递普通参数，需要传递函数，原理就是父组件创建一个函数，传递给子组件，子组件操作该回调函数。
+
+```jsx
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import "./index.css"
+
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+class Header extends React.Component {
+    // 按钮点击时间
+    clickFunc = (x) => {
+        return (event) => {
+            // 调用父组件传递过来的函数，将字符串x="Header"传递给该函数
+            this.props.getHeaderName(x)
+        }
+    }
+    render() {
+        return (
+            <div>
+                头部组件
+                <h1>接收父组件参数:{this.props.parentComponentName}</h1>
+                <button onClick={this.clickFunc('Header')}>点击我将Header字符串传递给父组件</button>
+            </div>
+        )
+    }
+}
+
+class Content extends React.Component {
+    render() {
+        return <div>内容组件</div>
+    }
+}
+
+class Footer extends React.Component {
+    render() {
+        return <div>底部组件</div>
+    }
+}
+
+class CombinedComponent extends React.Component {
+    // 父组件中定义函数供子组件回调使用
+    getHeaderName = (name) => {
+        console.log("父组件，打印Header组件传递过来的值", name)
+    }
+    render() {
+        return (
+            <div>
+                <Header parentComponentName="Combined" getHeaderName={this.getHeaderName}/>
+                <Content/>
+                <Footer/>
+            </div>
+        )
+    }
+}
+
+root.render(
+    <React.StrictMode>
+        <CombinedComponent/>
+    </React.StrictMode>
+)
+```
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181044711.png)
+## 兄弟组件间子组件传递
+这使用props就不能实现了，得借助第三方工具，消息订阅。需要安装依赖
+```shell
+npm i pubsub-js -S
+```
+具体如何使用见代码
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import "./index.css"
+import PubSub from 'pubsub-js'
+
+const domContainer = document.getElementById("root");
+const root = ReactDOM.createRoot(domContainer);
+
+class Header extends React.Component {
+    // 按钮点击时间
+    clickFunc = (x) => {
+        return (event) => {
+            // 调用父组件传递过来的函数，将字符串x="Header"传递给该函数
+            this.props.getHeaderName(x)
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                头部组件
+                <h1>接收父组件参数:{this.props.parentComponentName}</h1>
+                <button onClick={this.clickFunc('Header')}>点击我将Header字符串传递给父组件</button>
+            </div>
+        )
+    }
+}
+
+class Content extends React.Component {
+    render() {
+        return <div>内容组件
+            <button onClick={this.sendToFooter}>点我将参数传递给兄弟组件Footer</button>
+        </div>
+    }
+
+    sendToFooter = () => {
+        // 发布消息
+        PubSub.publish('topic1', `ContentComponent`)
+    }
+}
+
+class Footer extends React.Component {
+    state = {"contentName": ""}
+
+    // 在钩子函数中订阅消息
+    componentDidMount() {
+        // 订阅消息
+        PubSub.subscribe('topic1', (msg, data) => {
+            this.setState({
+                contentName: data
+            })
+        })
+    }
+
+    render() {
+        return <div>底部组件，接收兄弟组件Content传递过来的参数:{this.state.contentName}</div>
+    }
+}
+
+class CombinedComponent extends React.Component {
+    // 父组件中定义函数供子组件回调使用
+    getHeaderName = (name) => {
+        console.log("父组件，打印Header组件传递过来的值", name)
+    }
+
+    render() {
+        return (
+            <div>
+                <Header parentComponentName="Combined" getHeaderName={this.getHeaderName}/>
+                <Content/>
+                <Footer/>
+            </div>
+        )
+    }
+}
+
+root.render(
+    <React.StrictMode>
+        <CombinedComponent/>
+    </React.StrictMode>
+)
+```
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181055166.png)
