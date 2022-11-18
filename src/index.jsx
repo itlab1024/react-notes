@@ -1,81 +1,64 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import "./index.css"
-import PubSub from 'pubsub-js'
+import axios from 'axios'
 
 const domContainer = document.getElementById("root");
 const root = ReactDOM.createRoot(domContainer);
 
-class Header extends React.Component {
-    // 按钮点击时间
-    clickFunc = (x) => {
-        return (event) => {
-            // 调用父组件传递过来的函数，将字符串x="Header"传递给该函数
-            this.props.getHeaderName(x)
-        }
+class NetRequest extends React.Component {
+    state = {
+        githubName: '',
+        users: []
+    }
+    search = (e) => {
+        const url = `https://api.github.com/search/users?q=${this.state.githubName}`
+        axios.get(url).then((response) => {
+            this.setUsers(response.data.items)
+        });
+    }
+
+    setUsers = (items) => {
+        this.setState({users: items})
     }
 
     render() {
         return (
             <div>
-                头部组件
-                <h1>接收父组件参数:{this.props.parentComponentName}</h1>
-                <button onClick={this.clickFunc('Header')}>点击我将Header字符串传递给父组件</button>
+                <h1>搜过github用户</h1>
+                <input value={this.state.githubName} onChange={this.changeGithubName}/>
+                <button onClick={this.search}>搜索github</button>
+                <br/>搜索结果：
+                <ul>
+                    <Items users={this.state.users}/>
+                </ul>
             </div>
         )
     }
-}
 
-class Content extends React.Component {
-    render() {
-        return <div>内容组件
-            <button onClick={this.sendToFooter}>点我将参数传递给兄弟组件Footer</button>
-        </div>
-    }
-
-    sendToFooter = () => {
-        // 发布消息
-        PubSub.publish('topic1', `ContentComponent`)
+    changeGithubName = (e) => {
+        this.setState({githubName: e.target.value})
     }
 }
-
-class Footer extends React.Component {
-    state = {"contentName": ""}
-
-    // 在钩子函数中订阅消息
-    componentDidMount() {
-        // 订阅消息
-        PubSub.subscribe('topic1', (msg, data) => {
-            this.setState({
-                contentName: data
-            })
-        })
-    }
-
-    render() {
-        return <div>底部组件，接收兄弟组件Content传递过来的参数:{this.state.contentName}</div>
-    }
-}
-
-class CombinedComponent extends React.Component {
-    // 父组件中定义函数供子组件回调使用
-    getHeaderName = (name) => {
-        console.log("父组件，打印Header组件传递过来的值", name)
-    }
-
+class Items extends React.Component {
     render() {
         return (
-            <div>
-                <Header parentComponentName="Combined" getHeaderName={this.getHeaderName}/>
-                <Content/>
-                <Footer/>
-            </div>
+            <ul>
+                {this.props.users.map((u) => {
+                    return <li key={u.id}>
+                        <img style={{height: '50px', width: '50px'}}
+                             src={u.avatar_url}
+                             alt=""/>
+                        {u.login}
+                    </li>
+                })}
+            </ul>
         )
     }
 }
 
 root.render(
     <React.StrictMode>
-        <CombinedComponent/>
+        <NetRequest/>
     </React.StrictMode>
 )
