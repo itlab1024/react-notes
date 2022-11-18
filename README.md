@@ -90,7 +90,7 @@ Installing create-react-app's dependencies to C:\Users\Administrator\AppData\Roa
 [11/11] tar-pack@^3.4.1 installed at node_modules\_tar-pack@3.4.1@tar-pack
 deprecate tar-pack@3.4.1 › tar@^2.2.1 This version of tar is no longer supported, and will not receive security updates. Please upgrade asap.
 All packages installed (66 packages installed from npm registry, used 1s(network 1s), speed 844.85KB/s, json 61(341.28KB), tarball 705.49KB, manifests cache hit 0, etag hit 0 / miss 0)
-[create-react-app@5.0.1] link C:\Users\Administrator\AppData\Roaming\npm\create-react-app@ -> C:\Users\Administrator\AppData\Roaming\npm\node_modules\create-react-app\index.js
+[create-react-app@5.0.1] link C:\Users\Administrator\AppData\Roaming\npm\create-react-app@ -> C:\Users\Administrator\AppData\Roaming\npm\node_modules\create-react-app\index.jsx
 # 创建项目
 PS E:\github> create-react-app react-notes
 
@@ -199,7 +199,7 @@ root.render(btn)
 
 ## 什么是JSX？
 
-```jsx
+```jsxx
 const element = <h1>Hello, world!</h1>;
 ```
 
@@ -212,13 +212,13 @@ JSX就解决了这个问题。
 
 ## JSX中的表达式
 
-```jsx
+```jsxx
 const element = <h1>Hello, world!</h1>;
 ```
 
 代码中h1内元素内容是静态，JSX支持放入表达式来实现内容替换，使用{表达式}的方式。
 
-```jsx
+```jsxx
 const sayHello = "Hello, world!"
 const element = <h1>{sayHello}</h1>;
 ```
@@ -253,7 +253,7 @@ root.render(btn)
 
 多级元素使用括号括起来
 
-```jsx
+```jsxx
 const btn = (
     <div>
         <h1>hello world!</h1>
@@ -435,7 +435,7 @@ root.render(<Component1/>)
 
 首先看一个普通的参数传递
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -462,7 +462,7 @@ root.render(<Component1 name="one" age="12"/>)
 
 怎么做呢，可以将很多参数封装到一个对象中。
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -549,7 +549,7 @@ this.state = {name: "刘备"}，就是初始化的时候给组件state增加一�
 
 上面的state可以放到构造器中，但是也有更简单的方法，就是放到外面使用state = {}的方式设置
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -841,7 +841,7 @@ root.render(<Component1/>)
 在react中也可以以类似的方式使用，不过在react中事件的名字是驼峰命名，并且等号后面要使用`{this.这里是事件名}`
 ，特别注意，不需要用双引号括起来。
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -892,7 +892,7 @@ root.render(<IButton/>);
 
 但是在react中就不能这样做，如何做呢？看如下代码：
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -926,7 +926,7 @@ root.render(<IButton/>);
 我们可以通过给组件传递参数，组件内部通过参数判断动态使用组件进行渲染。举个例子，传递一个参数，isTeacher，如果是true就展示`老师`
 ，否则展示`学生`
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -977,7 +977,7 @@ root.render(<Complex isTeacher = {false}/>);
 
 react支持使用变量来存储元素，这样就能动态的渲染部分组件。
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1065,7 +1065,7 @@ root.render(<LoginControl/>);
 
 比如
 
-```react
+```jsxx
 class Login extends React.Component {
     // 渲染
     render() {
@@ -1078,7 +1078,7 @@ class Login extends React.Component {
 
 就可以修改为：
 
-```react
+```jsxx
 class Login extends React.Component {
     // 渲染
     render() {
@@ -1093,7 +1093,7 @@ class Login extends React.Component {
 
 ## 三目表达式
 
-```react
+```jsxx
 class Login extends React.Component {
     // 渲染
     render() {
@@ -1149,7 +1149,7 @@ root.render(<ListComponent/>);
 
 可以给<li>标签增加一个key属性：
 
-```react
+```jsxx
  <li key={number.toString()}>{number}</li>
 ```
 
@@ -1163,7 +1163,7 @@ root.render(<ListComponent/>);
 
 如果没有稳定的条目ID，可以使用index，如果有稳定的标记就是用它（比如后端数据返回的主键ID）
 
-```react
+```jsxx
 const todoItems = todos.map((todo, index) =>
   <li key={index}>
     {todo.text}
@@ -1177,7 +1177,7 @@ key在兄弟节点中唯一。
 
 ## 提取组件
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1223,7 +1223,7 @@ root.render(<UlComponent/>);
 由 React 控制其值的输入表单元素称为“受控组件”。也就是说表单的值通过react中的state控制。
 在大多数情况下，我们建议使用受控组件来实现表单。在受控组件中，表单数据由 React 组件处理。
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1274,7 +1274,7 @@ root.render(<Component1/>)
 
 上面的代码还是可以优化的，比如onchange的方法内容就很相似，那么可以通过使用一个onchange方法，传递不同的参数来解决。
 
-```react
+```jsxx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1382,7 +1382,7 @@ root.render(<Component1/>)
 回调形式是说ref是一个回调函数，这个回调函数会接收到一个参数，该参数就是ref对应的元素，回调中通常会使用this.类属性名 =
 接收到的参数。
 
-```js
+```jsx
 // 引入react相关依赖
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1425,7 +1425,7 @@ root.render(<Component1/>)
 **问题**：ref回调方式使用内联函数，当更新组件的时候，该回调函数会执行两次，但是官网说无关紧要，如果不想调用两次，则可以在类中函数，ref中调用该函数，
 例如：
 
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // 引入样式文件
@@ -1470,7 +1470,7 @@ root.render(<Component1/>)
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211152015910.png)
 可以不使用内联函数
 
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // 引入样式文件
@@ -1520,7 +1520,7 @@ root.render(<Component1/>)
 
 直接看示例：
 
-```jsx
+```jsxx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // 引入样式文件
@@ -1575,7 +1575,7 @@ ref官方是要求不能过度使用的，也就是说能不用就不用。但�
 这就是提示没有使用严格模式。
 可以在render的时候，使用`<React.StrictMode></React.StrictMode>`包裹组件即可。
 
-```jsx
+```jsxx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // 引入样式文件
@@ -1614,7 +1614,7 @@ npm install --save prop-types
 
 具体使用看代码：
 
-```jsx
+```jsxx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // 1.需要引入PropTypes依赖
@@ -1661,7 +1661,7 @@ root.render(
 
 组件可能是组合的形式，一个父组件可能有多个子组件
 
-```jsx
+```jsxx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import "./index.css"
@@ -1717,7 +1717,7 @@ CombinedComponent组件中有Header、Content、Footer三个子组件。
 
 使用props即可实现。
 
-```jsx
+```jsxx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import "./index.css"
@@ -1768,7 +1768,7 @@ root.render(
 
 也可以使用props，但是此时不能传递普通参数，需要传递函数，原理就是父组件创建一个函数，传递给子组件，子组件操作该回调函数。
 
-```jsx
+```jsxx
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1837,7 +1837,7 @@ root.render(
 npm i pubsub-js -S
 ```
 具体如何使用见代码
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import "./index.css"
