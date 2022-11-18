@@ -1161,7 +1161,7 @@ root.render(<ListComponent/>);
 
 选择键的最佳方法是使用一个字符串，该字符串在其兄弟项中唯一标识一个列表项。大多数情况下，使用数据中的 ID 作为键，就像上面我的做法那样。
 
-如果没有稳定的条目ID，可以使用index，
+如果没有稳定的条目ID，可以使用index，如果有稳定的标记就是用它（比如后端数据返回的主键ID）
 
 ```react
 const todoItems = todos.map((todo, index) =>
