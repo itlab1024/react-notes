@@ -2004,3 +2004,188 @@ this.setUsers(response.data.items)
 ``` 
 发送get请求。then里是回调函数，这里要特别注意，要使用箭头函数，否则this有问题。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181435766.png)
+# 一些说明
+在接下来的学习中，我修改了下项目接口。index.jsx里面我包装了一个App组件，以后我都在App.js组件中编写学习代码，看视频说实际开发中也是类似这样的结构，项目的底层用一个独立的App组件包裹。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181548621.png)
+index.jsx代码修改为如下：
+```jsx
+import React, {StrictMode} from 'react'
+import ReactDOM from 'react-dom/client'
+import "./index.css"
+import App from './App'
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(
+    <StrictMode>
+        <App/>
+    </StrictMode>
+)
+```
+# React路由
+我使用的是6.4.3版本，他跟5版本还是有写差别的。
+安装依赖
+```shell
+npm i react-router-dom
+```
+## 路由器组件
+路由器组件有如下几种，分别来学习它们BrowserRouter 、HashRouter 、MemoryRouter、NativeRouter 、StaticRouter，
+所有的其他路由组件，比如Link、NavLink等都需放到路由器组件下。
+### BrowserRouter
+该组件地址栏URL比较干净，类似与http://itlab1024.com/article。
+```jsx
+import React, {Component} from 'react';
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom"
+
+class App extends Component {
+    render() {
+        return (<div>
+            <BrowserRouter>
+                <ul>
+                    <li>
+                        <Link to="/react">React页面</Link>
+                    </li>
+                    <li>
+                        <Link to="/vue">vue页面</Link>
+                    </li>
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                </ul>
+                <Routes>
+                    <Route path="/react" element={<ReactComponent/>}/>
+                    <Route path="/vue" element={<VueComponent/>}/>
+                    <Route path="/" element={<HomeComponent/>}/>
+                </Routes>
+            </BrowserRouter>
+        </div>)
+    }
+}
+
+function ReactComponent() {
+    return <h1>react页面</h1>
+}
+
+function VueComponent() {
+    return <h1>vue页面</h1>
+}
+
+function HomeComponent() {
+    return <h1>主页面</h1>
+}
+
+export default App;
+```
+解释：
+* 外层使用`BrowserRouter`包裹，因为其他路由组件必须放到路器组件内部。
+* `<Routes>`用于包裹`<Route>`,他是一组路由
+* `<Route>`是具体路由，其中path是路径，element是组件（最终会展示该组件）,格式是：`element={<HomeComponent/>}`
+* `<Link>` 是连接，他会被最终解析为`<a>`标签，类似功能还有`<NavLink>`。
+
+运行：
+刚开始进入页面展示主页面（一直注意url的变化）：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181602280.png)
+点击链接`React页面`：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181602968.png)
+点击链接`vue页面`：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181603381.png)
+可以看到url是不断变化的。
+### 
+将路由器组件修改为`HashRouter`
+地址栏会变为如下形式：
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181605321.png)
+### MemoryRouter 
+内存路由器是在内存中通过数组来维护的，不会体现到url上。
+### NativeRouter
+常配合ReactNative使用，多用于移动端，暂不学习
+### StaticRouter
+设置静态路由，需要和后台服务器配合设置，比如设置服务端渲染时使用。
+```js
+import * as React from "react";
+import * as ReactDOMServer from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+import http from "http";
+
+function requestHandler(req, res) {
+  let html = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url}>
+      {/* The rest of your app goes here */}
+    </StaticRouter>
+  );
+
+  res.write(html);
+  res.end();
+}
+
+http.createServer(requestHandler).listen(3000);
+```
+## 路由嵌套
+```jsx
+import React, {Component} from 'react';
+import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom"
+
+class App extends Component {
+    render() {
+        return (
+            <div>
+                <BrowserRouter>
+                    <ul>
+                        <li>
+                            <NavLink to="/react">React页面</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/vue">vue页面</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/">Home</NavLink>
+                        </li>
+                    </ul>
+                    <Routes>
+                        <Route path="/react/*" element={<ReactComponent/>}/>
+                        <Route path="/vue/*" element={<VueComponent/>}/>
+                        <Route path="/" element={<HomeComponent/>}/>
+                    </Routes>
+                </BrowserRouter>
+            </div>)
+    }
+}
+
+function ReactComponent() {
+    return (
+        <div>
+            <h1>react页面</h1>
+            <ul>
+                <li>
+                    <NavLink to="/react/centos">centos</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/react/ubuntu">ubuntu</NavLink>
+                </li>
+            </ul>
+            <Routes>
+                <Route path="/react/centos" element={<CentosComponent/>}/>
+                <Route path="/react/ubuntu" element={<UbuntuComponent/>}/>
+            </Routes>
+        </div>
+    )
+}
+function CentosComponent() {
+    return <h1>centos页面</h1>
+}
+
+function UbuntuComponent() {
+    return <h1>ubuntu页面</h1>
+}
+
+function VueComponent() {
+    return <h1>vue页面</h1>
+}
+
+function HomeComponent() {
+    return <h1>主页面</h1>
+}
+
+export default App;
+```
+
+
+
