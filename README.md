@@ -90,7 +90,7 @@ Installing create-react-app's dependencies to C:\Users\Administrator\AppData\Roa
 [11/11] tar-pack@^3.4.1 installed at node_modules\_tar-pack@3.4.1@tar-pack
 deprecate tar-pack@3.4.1 › tar@^2.2.1 This version of tar is no longer supported, and will not receive security updates. Please upgrade asap.
 All packages installed (66 packages installed from npm registry, used 1s(network 1s), speed 844.85KB/s, json 61(341.28KB), tarball 705.49KB, manifests cache hit 0, etag hit 0 / miss 0)
-[create-react-app@5.0.1] link C:\Users\Administrator\AppData\Roaming\npm\create-react-app@ -> C:\Users\Administrator\AppData\Roaming\npm\node_modules\create-react-app\index.jsx
+[create-react-app@5.0.1] link C:\Users\Administrator\AppData\Roaming\npm\create-react-app@ -> C:\Users\Administrator\AppData\Roaming\npm\node_modules\create-react-app\index.js
 # 创建项目
 PS E:\github> create-react-app react-notes
 
