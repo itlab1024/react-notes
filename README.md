@@ -1601,7 +1601,7 @@ root.render(<React.StrictMode><Component1/></React.StrictMode>)
 
 # 静态类型检查
 
-props类型检查有多种方式，需要借助第三方库，有propsTypes、Flow、和TypeScript。
+props类型检查有多种方式，需要借助第三方库，有propsTypes、Flow、和TypeScript([我的简要学习笔记](https://github.com/itlab1024/typescript-tutor))。
 出于性能方面的考虑，propTypes 仅在开发模式下进行检查
 
 ## propTypes
