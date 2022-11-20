@@ -6,21 +6,13 @@ class App extends Component {
         return (
             <div>
                 <BrowserRouter>
-                    <ul>
-                        <li>
-                            <NavLink to="/react">React页面</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/vue">vue页面</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/">Home</NavLink>
-                        </li>
-                    </ul>
                     <Routes>
-                        <Route path="/react" element={<ReactComponent/>}/>
-                        <Route path="/vue" element={<VueComponent/>}/>
+                        {/*根路由*/}
                         <Route path="/" element={<HomeComponent/>}/>
+                        <Route path="react" element={<ReactComponent/>}/>
+                        <Route path="/vue" element={<VueComponent/>}/>
+                        <Route path="/react/centos" element={<CentosComponent/>}/>
+                        <Route path="/react/ubuntu" element={<UbuntuComponent/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>)
@@ -39,13 +31,10 @@ function ReactComponent() {
                     <NavLink to="/react/ubuntu">ubuntu</NavLink>
                 </li>
             </ul>
-            <Routes>
-                <Route path="/centos" element={<CentosComponent/>}/>
-                <Route path="/ubuntu" element={<UbuntuComponent/>}/>
-            </Routes>
         </div>
     )
 }
+
 function CentosComponent() {
     return <h1>centos页面</h1>
 }
@@ -59,7 +48,18 @@ function VueComponent() {
 }
 
 function HomeComponent() {
-    return <h1>主页面</h1>
+    return (
+        <h1>主页面<br/>
+            <ul>
+                <li>
+                    <NavLink to="/react">React页面</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/vue">vue页面</NavLink>
+                </li>
+            </ul>
+        </h1>
+    )
 }
 
 export default App;
