@@ -2001,7 +2001,7 @@ root.render(
 axios.get(url).then((response) => {
 this.setUsers(response.data.items)
 });
-``` 
+```
 发送get请求。then里是回调函数，这里要特别注意，要使用箭头函数，否则this有问题。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181435766.png)
 # 一些说明
@@ -2093,7 +2093,13 @@ export default App;
 将路由器组件修改为`HashRouter`
 地址栏会变为如下形式：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181605321.png)
+
+## HashRouter
+
+`url`类似https://itlab1024.com/#/xxx，后面用#分隔，就类似`html`中的锚点的概念。
+
 ### MemoryRouter 
+
 内存路由器是在内存中通过数组来维护的，不会体现到url上。
 ### NativeRouter
 常配合ReactNative使用，多用于移动端，暂不学习
@@ -2119,73 +2125,137 @@ function requestHandler(req, res) {
 http.createServer(requestHandler).listen(3000);
 ```
 ## 路由嵌套
+
+index.js
+
+```jsx
+import React, {StrictMode} from 'react'
+import ReactDOM from 'react-dom/client'
+import "./index.css"
+import App from './App'
+import {BrowserRouter} from "react-router-dom";
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(
+    <StrictMode>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+    </StrictMode>
+)
+```
+
+app.jsx：这里定义了路由。
+
 ```jsx
 import React, {Component} from 'react';
-import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom"
+import {Route, Routes} from "react-router-dom"
+import Home from "./pages/Home";
+import ReactPage from "./pages/ReactPage";
+import VuePage from "./pages/VuePage";
+import ReactCn from "./pages/ReactCn";
+import ReactEn from "./pages/ReactEn";
 
 class App extends Component {
     render() {
         return (
             <div>
-                <BrowserRouter>
-                    <ul>
-                        <li>
-                            <NavLink to="/react">React页面</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/vue">vue页面</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/">Home</NavLink>
-                        </li>
-                    </ul>
-                    <Routes>
-                        <Route path="/react/*" element={<ReactComponent/>}/>
-                        <Route path="/vue/*" element={<VueComponent/>}/>
-                        <Route path="/" element={<HomeComponent/>}/>
-                    </Routes>
-                </BrowserRouter>
+                <Routes>
+                    <Route path="/">
+                        <Route index element={<Home/>}/>
+                        <Route path="react" element={<ReactPage/>}>
+                            <Route path="en" element={<ReactEn/>}/>
+                            <Route path="cn" element={<ReactCn/>}/>
+                        </Route>
+                    </Route>
+                </Routes>
             </div>)
     }
-}
-
-function ReactComponent() {
-    return (
-        <div>
-            <h1>react页面</h1>
-            <ul>
-                <li>
-                    <NavLink to="/react/centos">centos</NavLink>
-                </li>
-                <li>
-                    <NavLink to="/react/ubuntu">ubuntu</NavLink>
-                </li>
-            </ul>
-            <Routes>
-                <Route path="/react/centos" element={<CentosComponent/>}/>
-                <Route path="/react/ubuntu" element={<UbuntuComponent/>}/>
-            </Routes>
-        </div>
-    )
-}
-function CentosComponent() {
-    return <h1>centos页面</h1>
-}
-
-function UbuntuComponent() {
-    return <h1>ubuntu页面</h1>
-}
-
-function VueComponent() {
-    return <h1>vue页面</h1>
-}
-
-function HomeComponent() {
-    return <h1>主页面</h1>
 }
 
 export default App;
 ```
 
+路由组件有Home、ReactPage、ReactEn、ReactCn四个组件。
 
+功能是默认进入首页，能够看到跳转到ReactPage路由的链接，点击后能够看到跳转到`ReactPageEn`、`ReactPageCn`两个路由的两个链接。
 
+ReactPage.jsx
+
+```jsx
+import React, {Component} from 'react';
+import {Link, Outlet} from "react-router-dom";
+
+class ReactPage extends Component {
+    render() {
+        return (
+            <div>
+                react页面（本页面有两个二级路由）<br/>
+                <p>下面是两个链接，点击跳转到不同的路由</p>
+                <Link to={"/react/cn"}>中文文档</Link><br/>
+                <Link to={"/react/en"}>英文文档</Link>
+                <p>路由切换后的组件将展示到下面</p>
+                <div>
+                    <Outlet/>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default ReactPage;
+```
+
+ReactEn.jsx
+
+```jsx
+import React, {Component} from 'react';
+
+class ReactCn extends Component {
+    render() {
+        return (
+            <div>
+                React中文界面
+            </div>
+        );
+    }
+}
+
+export default ReactCn;
+```
+
+ReactCn.jsx
+
+```jsx
+import React, {Component} from 'react';
+
+class ReactEn extends Component {
+    render() {
+        return (
+            <div>
+                react英文界面
+            </div>
+        );
+    }
+}
+
+export default ReactEn;
+```
+
+界面演示：
+
+首次进入：
+
+![image-20221121135058955](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211211350128.png)
+
+点击后：
+
+![image-20221121135133897](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211211351991.png)
+
+点击后：
+
+![image-20221121135151567](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211211351645.png)
+
+组件被渲染到了下方。
+
+路由还有很多东西，慢慢学。。。
