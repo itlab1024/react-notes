@@ -1830,13 +1830,19 @@ root.render(
     </React.StrictMode>
 )
 ```
+
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181044711.png)
+
 ## 兄弟组件间参数传递
+
 这使用props就不能实现了，得借助第三方工具，消息订阅。需要安装依赖
+
 ```shell
 npm i pubsub-js -S
 ```
+
 具体如何使用见代码
+
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1920,14 +1926,22 @@ root.render(
     </React.StrictMode>
 )
 ```
+
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181055166.png)
+
 # 网络请求
-网络请求需要使用第三方库，我这里使用比较流行的[axios](https://axios-http.com/)。也有[中文版](https://axios-http.com/zh/docs/intro)
+
+网络请求需要使用第三方库，我这里使用比较流行的[axios](https://axios-http.com/)
+。也有[中文版](https://axios-http.com/zh/docs/intro)
+
 ## 添加依赖
+
 ```shell
 npm i axios
 ```
+
 ## 使用
+
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -1971,6 +1985,7 @@ class NetRequest extends React.Component {
         this.setState({githubName: e.target.value})
     }
 }
+
 class Items extends React.Component {
     render() {
         return (
@@ -1994,20 +2009,27 @@ root.render(
     </React.StrictMode>
 )
 ```
+
 说明：
+
 * 使用：`import axios from 'axios'`引入依赖
 * 特别注意如下代码：
+
 ```jsx
 axios.get(url).then((response) => {
-this.setUsers(response.data.items)
+    this.setUsers(response.data.items)
 });
 ```
+
 发送get请求。then里是回调函数，这里要特别注意，要使用箭头函数，否则this有问题。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181435766.png)
+
 # 一些说明
+
 在接下来的学习中，我修改了下项目接口。index.jsx里面我包装了一个App组件，以后我都在App.js组件中编写学习代码，看视频说实际开发中也是类似这样的结构，项目的底层用一个独立的App组件包裹。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181548621.png)
 index.jsx代码修改为如下：
+
 ```jsx
 import React, {StrictMode} from 'react'
 import ReactDOM from 'react-dom/client'
@@ -2021,17 +2043,25 @@ root.render(
     </StrictMode>
 )
 ```
+
 # React路由
+
 我使用的是6.4.3版本，他跟5版本还是有写差别的。
 安装依赖
+
 ```shell
 npm i react-router-dom
 ```
+
 ## 路由器组件
+
 路由器组件有如下几种，分别来学习它们BrowserRouter 、HashRouter 、MemoryRouter、NativeRouter 、StaticRouter，
 所有的其他路由组件，比如Link、NavLink等都需放到路由器组件下。
+
 ### BrowserRouter
+
 该组件地址栏URL比较干净，类似与http://itlab1024.com/article。
+
 ```jsx
 import React, {Component} from 'react';
 import {BrowserRouter, Link, Route, Routes} from "react-router-dom"
@@ -2075,7 +2105,9 @@ function HomeComponent() {
 
 export default App;
 ```
+
 解释：
+
 * 外层使用`BrowserRouter`包裹，因为其他路由组件必须放到路器组件内部。
 * `<Routes>`用于包裹`<Route>`,他是一组路由
 * `<Route>`是具体路由，其中path是路径，element是组件（最终会展示该组件）,格式是：`element={<HomeComponent/>}`
@@ -2089,7 +2121,9 @@ export default App;
 点击链接`vue页面`：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181603381.png)
 可以看到url是不断变化的。
-### 
+
+###  
+
 将路由器组件修改为`HashRouter`
 地址栏会变为如下形式：
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181605321.png)
@@ -2098,164 +2132,136 @@ export default App;
 
 `url`类似https://itlab1024.com/#/xxx，后面用#分隔，就类似`html`中的锚点的概念。
 
-### MemoryRouter 
+### MemoryRouter
 
 内存路由器是在内存中通过数组来维护的，不会体现到url上。
+
 ### NativeRouter
+
 常配合ReactNative使用，多用于移动端，暂不学习
+
 ### StaticRouter
+
 设置静态路由，需要和后台服务器配合设置，比如设置服务端渲染时使用。
+
 ```js
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
-import { StaticRouter } from "react-router-dom/server";
+import {StaticRouter} from "react-router-dom/server";
 import http from "http";
 
 function requestHandler(req, res) {
-  let html = ReactDOMServer.renderToString(
-    <StaticRouter location={req.url}>
-      {/* The rest of your app goes here */}
-    </StaticRouter>
-  );
+    let html = ReactDOMServer.renderToString(
+        <StaticRouter location={req.url}>
+            {/* The rest of your app goes here */}
+        </StaticRouter>
+    );
 
-  res.write(html);
-  res.end();
+    res.write(html);
+    res.end();
 }
 
 http.createServer(requestHandler).listen(3000);
 ```
+
 ## 路由嵌套
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211221223974.jpg)
+图中红色方框是组件，用户首先看到的是Layout组件，里面有两个链接，同时使用`<Outlet/>`组件用于渲染子路由组件，点击Home后会展示出来子组件`Java`和`Golang`
+再点击两个组件后会展示不同的内容（也需要使用`<Outlet/>`展示子路由组件）。
+代码我就不贴了 图片中都有。
 
-index.js
+# 打包
 
-```jsx
-import React, {StrictMode} from 'react'
-import ReactDOM from 'react-dom/client'
-import "./index.css"
-import App from './App'
-import {BrowserRouter} from "react-router-dom";
+进入根目录，使用`npm run build`打包
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211221007556.png)
+将其放到服务器下即可。
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
-    <StrictMode>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
-    </StrictMode>
-)
-```
+# setState的两种写法
 
-app.jsx：这里定义了路由。
+## 对象式
+
+之前写的都是对象式写法
 
 ```jsx
 import React, {Component} from 'react';
-import {Route, Routes} from "react-router-dom"
-import Home from "./pages/Home";
-import ReactPage from "./pages/ReactPage";
-import VuePage from "./pages/VuePage";
-import ReactCn from "./pages/ReactCn";
-import ReactEn from "./pages/ReactEn";
 
 class App extends Component {
+    state = {count: 0}
+
     render() {
         return (
             <div>
-                <Routes>
-                    <Route path="/">
-                        <Route index element={<Home/>}/>
-                        <Route path="react" element={<ReactPage/>}>
-                            <Route path="en" element={<ReactEn/>}/>
-                            <Route path="cn" element={<ReactCn/>}/>
-                        </Route>
-                    </Route>
-                </Routes>
+                <h1>累加结果是：{this.state.count}</h1>
+                <button onClick={this.addOne}>加一</button>
             </div>)
+    }
+
+    addOne = () => {
+        console.log("sss")
+        this.setState({count: this.state.count + 1}, () => {
+            console.log("设置state完毕，页面更新完毕后会被回调")
+        })
     }
 }
 
 export default App;
 ```
 
-路由组件有Home、ReactPage、ReactEn、ReactCn四个组件。
-
-功能是默认进入首页，能够看到跳转到ReactPage路由的链接，点击后能够看到跳转到`ReactPageEn`、`ReactPageCn`两个路由的两个链接。
-
-ReactPage.jsx
-
-```jsx
-import React, {Component} from 'react';
-import {Link, Outlet} from "react-router-dom";
-
-class ReactPage extends Component {
-    render() {
-        return (
-            <div>
-                react页面（本页面有两个二级路由）<br/>
-                <p>下面是两个链接，点击跳转到不同的路由</p>
-                <Link to={"/react/cn"}>中文文档</Link><br/>
-                <Link to={"/react/en"}>英文文档</Link>
-                <p>路由切换后的组件将展示到下面</p>
-                <div>
-                    <Outlet/>
-                </div>
-            </div>
-        );
-    }
-}
-
-export default ReactPage;
-```
-
-ReactEn.jsx
+这种`this.setState({count: this.state.count + 1})`就是对象式，其实该方法还有第二个参数，也就是个回调，为什么有回调呢？是因为state方法式异步的。
 
 ```jsx
 import React, {Component} from 'react';
 
-class ReactCn extends Component {
+class App extends Component {
+    state = {count: 0}
+
     render() {
         return (
             <div>
-                React中文界面
-            </div>
-        );
+                <h1>累加结果是：{this.state.count}</h1>
+                <button onClick={this.addOne}>加一</button>
+            </div>)
+    }
+
+    addOne = () => {
+        this.setState({count: this.state.count + 1}, () => {
+            console.log("设置state完毕，页面更新完毕后会被回调")
+        })
     }
 }
 
-export default ReactCn;
+export default App;
 ```
 
-ReactCn.jsx
+浏览器控制台打印了回调输出。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211221042893.png)
+
+## 函数式
+
+函数式支持两个参数，第一个参数是一个函数，第二个也是个函数：回调，跟上面的一样。
 
 ```jsx
-import React, {Component} from 'react';
-
-class ReactEn extends Component {
-    render() {
-        return (
-            <div>
-                react英文界面
-            </div>
-        );
-    }
+addOne = () => {
+    this.setState((state, props) => {
+        console.log("state=", state, "props=", props)
+        return {count: this.state.count + 1}
+    }, () => {
+        console.log("设置state完毕，页面更新完毕后会被回调")
+    })
 }
-
-export default ReactEn;
 ```
 
-界面演示：
+addOne方法的第一个参数，可以说到两个值，state和props。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211221051195.png)
+## 使用场景
+* 如果新状态不依赖于原状态，直接使用对象式即可，反之使用函数式
+* callback可以获取到修改后的state信息。
 
-首次进入：
+# 懒加载(LazyLoad)
+默认页面组件等会一次性加载完毕的，但是项目比较大的时候就有问题，有好的方法是懒加载，比如我点击一个路由，再加载那个组件渲染。
+懒加载就是干这个的。
+```jsx
+const LazyComponent = lazy(()=> {import('./LazyComponent')})
+```
+上面的代码就是说，LazyComponent是懒加载引用。
 
-![image-20221121135058955](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211211350128.png)
-
-点击后：
-
-![image-20221121135133897](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211211351991.png)
-
-点击后：
-
-![image-20221121135151567](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211211351645.png)
-
-组件被渲染到了下方。
-
-路由还有很多东西，慢慢学。。。

@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 
-class ReactCn extends Component {
+class Golang extends Component {
     render() {
         return (
             <div>
-                React中文界面
+                go语言是google公司开发的语言
             </div>
         );
     }
 }
 
-export default ReactCn;
+export default Golang;
