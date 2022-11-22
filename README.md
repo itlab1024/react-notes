@@ -1601,7 +1601,8 @@ root.render(<React.StrictMode><Component1/></React.StrictMode>)
 
 # 静态类型检查
 
-props类型检查有多种方式，需要借助第三方库，有propsTypes、Flow、和TypeScript([我的简要学习笔记](https://github.com/itlab1024/typescript-tutor))。
+props类型检查有多种方式，需要借助第三方库，有propsTypes、Flow、和TypeScript([我的简要学习笔记](https://github.com/itlab1024/typescript-tutor))
+。
 出于性能方面的考虑，propTypes 仅在开发模式下进行检查
 
 ## propTypes
@@ -2122,7 +2123,7 @@ export default App;
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211181603381.png)
 可以看到url是不断变化的。
 
-###  
+###   
 
 将路由器组件修改为`HashRouter`
 地址栏会变为如下形式：
@@ -2165,8 +2166,10 @@ http.createServer(requestHandler).listen(3000);
 ```
 
 ## 路由嵌套
+
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211221223974.jpg)
-图中红色方框是组件，用户首先看到的是Layout组件，里面有两个链接，同时使用`<Outlet/>`组件用于渲染子路由组件，点击Home后会展示出来子组件`Java`和`Golang`
+图中红色方框是组件，用户首先看到的是Layout组件，里面有两个链接，同时使用`<Outlet/>`
+组件用于渲染子路由组件，点击Home后会展示出来子组件`Java`和`Golang`
 再点击两个组件后会展示不同的内容（也需要使用`<Outlet/>`展示子路由组件）。
 代码我就不贴了 图片中都有。
 
@@ -2253,15 +2256,288 @@ addOne = () => {
 
 addOne方法的第一个参数，可以说到两个值，state和props。
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211221051195.png)
+
 ## 使用场景
+
 * 如果新状态不依赖于原状态，直接使用对象式即可，反之使用函数式
 * callback可以获取到修改后的state信息。
 
 # 懒加载(LazyLoad)
+
 默认页面组件等会一次性加载完毕的，但是项目比较大的时候就有问题，有好的方法是懒加载，比如我点击一个路由，再加载那个组件渲染。
 懒加载就是干这个的。
+
 ```jsx
-const LazyComponent = lazy(()=> {import('./LazyComponent')})
+const LazyComponent = lazy(() => {
+    import('./LazyComponent')
+})
 ```
+
 上面的代码就是说，LazyComponent是懒加载引用。
+并且路由需要使用`<Suspense fallback={<h1>正在加载中...</h1>}>`包裹，这是必须的，具体看如下代码：
+
+```jsx
+class App extends Component {
+    render() {
+        return (
+            <BrowserRouter>
+                <Suspense fallback={<h1>正在加载中...</h1>}>
+                    <Routes>
+                        <Route path="/" element={<Layout/>}>
+                            <Route path="home" element={<Home/>}>
+                                <Route path="go" element={<Golang/>}/>
+                                <Route path="java" element={<Java/>}/>
+                            </Route>
+                            <Route path="about" element={<About/>}/>
+                        </Route>
+                    </Routes>
+                </Suspense>
+            </BrowserRouter>
+        )
+    }
+}
+```
+
+# Hooks
+
+Hook 是 React 16.8 的新增特性。它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性。
+> 特别注意：本版本（18.2）中，使用Hooks，需要先关闭严格模式，否则回调会有问题（本说明后加的），原因暂时未知。 
+
+## state hook
+
+使用`React.useState(初始值)`的方式创建一个state hook。他会返回一个数组，数组只有两个，第一个是state的值，第二个是state更新方法，名字随便写。之后不要用错即可。
+
+```jsx
+import React from 'react';
+// 类式组件实现方式
+// class App extends Component {
+//     state = {count: 0}
+//
+//     render() {
+//         return (
+//             <div>
+//                 <h1>结果是:{this.state.count}</h1>
+//                 <button onClick={this.addOne}>加一</button>
+//             </div>
+//         )
+//     }
+//
+//     addOne = () => {
+//         this.setState({count: this.state.count + 1})
+//     }
+// }
+
+// 函数式组件实现方式，使用Hooks
+function App() {
+    // 使用React.useState hook
+    const [count, setCount] = React.useState(0);
+
+    function addOne() {
+        setCount(count + 1)
+    }
+
+    return (
+        <div>
+            <h1>结果是:{count}</h1>
+            <button onClick={addOne}>加一</button>
+        </div>
+    )
+}
+
+export default App;
+```
+
+上面代码中注释掉的类组件模式和下方的函数组件模式实现的功能一样。
+hook在类组件中无效！！！
+
+## Effect Hook
+
+它可以让我们在函数中使用生命周期钩子函数
+
+### 基本使用
+
+```jsx
+import React from 'react';
+// 类式组件实现方式
+// class App extends Component {
+//     state = {count: 0}
+//
+//     render() {
+//         return (
+//             <div>
+//                 <h1>结果是:{this.state.count}</h1>
+//                 <button onClick={this.addOne}>加一</button>
+//             </div>
+//         )
+//     }
+//
+//     addOne = () => {
+//         this.setState({count: this.state.count + 1})
+//     }
+// }
+
+// 函数式组件实现方式，使用Hooks
+function App() {
+    // 使用React.useState hook
+    const [count, setCount] = React.useState(0);
+
+    React.useEffect(() => {
+        console.log("钩子函数被执行")
+    })
+
+    function addOne() {
+        setCount(count + 1)
+    }
+
+    return (
+        <div>
+            <h1>结果是:{count}</h1>
+            <button onClick={addOne}>加一</button>
+        </div>
+    )
+}
+
+export default App;
+```
+
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211221339048.png)
+好像不太对呀，我什么都没错，怎么输出两条日志？查了半天说是严格模式的问题，我去掉了`React.StrictMode`后确实打印了一次日志。
+
+### 动态监听状态
+useEffect还有第二个参数，数组类型，可以设置监听哪些状态，他可以被看作是componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合。
+
+```jsx
+import React from 'react';
+// 类式组件实现方式
+// class App extends Component {
+//     state = {count: 0}
+//
+//     render() {
+//         return (
+//             <div>
+//                 <h1>结果是:{this.state.count}</h1>
+//                 <button onClick={this.addOne}>加一</button>
+//             </div>
+//         )
+//     }
+//
+//     addOne = () => {
+//         this.setState({count: this.state.count + 1})
+//     }
+// }
+
+// 函数式组件实现方式，使用Hooks
+function App() {
+    // 使用React.useState hook
+    const [count, setCount] = React.useState(0);
+    const [name, setName] = React.useState("武松");
+    // 有两个参数，第一个是钩子函数，第二个是监听数组，数组是状态数据
+    React.useEffect(() => { // 该钩子函数就类似于componentDidMount and componentDidUpdate。
+        console.log("钩子函数被执行")
+    }, [count])
+
+    function addOne() {
+        setCount(count + 1)
+    }
+
+    function changeName() {
+        setName("林冲")
+    }
+
+    return (
+        <div>
+            <h1>结果是:{count}----{name}</h1>
+            <button onClick={addOne}>加一</button>
+            <br/>
+            <button onClick={changeName}>改名</button>
+        </div>
+    )
+}
+
+export default App;
+```
+
+上面代码中：
+
+```jsx
+React.useEffect(() => {
+    console.log("钩子函数被执行") // 该钩子函数类似于类组件中的componentDidMount和componentDidUpdate钩子函数
+}, [count])
+```
+
+第二个参数是`[count]`,就是说我就监听count，而没有监听name，所有点击`加一`的按钮后，会触发函数执行，点击`改名`则不会出发。
+### 钩子函数的说明
+上面的代码
+```jsx
+React.useEffect(() => {
+    console.log("钩子函数被执行") // 该钩子函数类似于类组件中的componentDidMount和componentDidUpdate钩子函数
+}, [count])
+```
+中的箭头函数就类似类似于类组件中的componentDidMount和componentDidUpdate钩子函数，但是缺少一个componentWillUnmount。再函数组件中也能
+实现。
+```jsx
+import React from 'react';
+import root from "./index";
+// 类式组件实现方式
+// class App extends Component {
+//     state = {count: 0}
+//
+//     render() {
+//         return (
+//             <div>
+//                 <h1>结果是:{this.state.count}</h1>
+//                 <button onClick={this.addOne}>加一</button>
+//             </div>
+//         )
+//     }
+//
+//     addOne = () => {
+//         this.setState({count: this.state.count + 1})
+//     }
+// }
+
+// 函数式组件实现方式，使用Hooks
+const App = () => {
+    // 使用React.useState hook
+    const [count, setCount] = React.useState(0);
+    const [name, setName] = React.useState("武松");
+    // 有两个参数，第一个是钩子函数，第二个是监听数组，数组是状态数据
+    React.useEffect(() => {
+        console.log("钩子函数被执行")
+        // return这个函数就类似类式组件中的componentWillUnmount钩子。
+        return () => {
+            console.log("组件卸载前执行")
+        }
+    }, [count])
+
+    function addOne() {
+        setCount(count + 1)
+    }
+
+    function changeName() {
+        setName("林冲")
+    }
+
+    // 卸载组件
+    function unmount() {
+        root.unmount()
+    }
+
+    return (
+        <div>
+            <h1>结果是:{count}----{name}</h1>
+            <button onClick={addOne}>加一</button>
+            <br/>
+            <button onClick={changeName}>改名</button>
+            <button onClick={unmount}>卸载组件</button>
+        </div>
+    )
+}
+
+export default App;
+```
+当我点击卸载组件的时候，会输出`组件卸载前执行`。
+![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211222110107.png)
+不过我这里有个问题，当我点击`加一`按钮的时候，也会执行卸载回调。不知道为啥？明天查查原因。
+
 
