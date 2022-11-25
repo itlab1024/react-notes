@@ -1,59 +1,41 @@
-import React from 'react';
-import root from "./index";
-// 类式组件实现方式
-// class App extends Component {
-//     state = {count: 0}
-//
-//     render() {
-//         return (
-//             <div>
-//                 <h1>结果是:{this.state.count}</h1>
-//                 <button onClick={this.addOne}>加一</button>
-//             </div>
-//         )
-//     }
-//
-//     addOne = () => {
-//         this.setState({count: this.state.count + 1})
-//     }
-// }
+import React, {Fragment} from 'react';
+// Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
+// 为当前的 theme 创建一个 context（“light”为默认值）。
+const ThemeContext = React.createContext('light');
 
-// 函数式组件实现方式，使用Hooks
-const App = () => {
-    // 使用React.useState hook
-    const [count, setCount] = React.useState(0);
-    const [name, setName] = React.useState("武松");
-    // 有两个参数，第一个是钩子函数，第二个是监听数组，数组是状态数据
-    React.useEffect(() => {
-        console.log("钩子函数被执行")
-        // return这个函数就类似类式组件中的componentWillUnmount钩子。
-        return () => {
-            console.log("组件卸载前执行")
-        }
-    }, [count])
-
-    function addOne() {
-        setCount(count + 1)
+class App extends React.Component {
+    render() {
+        // 使用一个 Provider 来将当前的 theme 传递给以下的组件树。
+        // 无论多深，任何组件都能读取这个值。
+        // 在这个例子中，我们将 “dark” 作为当前的值传递下去。
+        return (
+            <ThemeContext.Provider value="dark">
+                <Toolbar/>
+            </ThemeContext.Provider>
+        );
     }
+}
 
-    function changeName() {
-        setName("林冲")
-    }
-
-    // 卸载组件
-    function unmount() {
-        root.unmount()
-    }
-
+// 中间的组件再也不必指明往下传递 theme 了。
+function Toolbar() {
     return (
         <div>
-            <h1>结果是:{count}----{name}</h1>
-            <button onClick={addOne}>加一</button>
-            <br/>
-            <button onClick={changeName}>改名</button>
-            <button onClick={unmount}>卸载组件</button>
+            <ThemedButton/>
         </div>
-    )
+    );
+}
+
+class ThemedButton extends React.Component {
+    // 指定 contextType 读取当前的 theme context。
+    // React 会往上找到最近的 theme Provider，然后使用它的值。
+    // 在这个例子中，当前的 theme 值为 “dark”。
+    static contextType = ThemeContext;
+
+    render() {
+        return (<Fragment>
+            {this.context}
+        </Fragment>);
+    }
 }
 
 export default App;

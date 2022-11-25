@@ -2350,7 +2350,7 @@ export default App;
 上面代码中注释掉的类组件模式和下方的函数组件模式实现的功能一样。
 hook在类组件中无效！！！
 
-## Effect Hook
+## effect Hook
 
 它可以让我们在函数中使用生命周期钩子函数
 
@@ -2540,4 +2540,114 @@ export default App;
 ![](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211222110107.png)
 不过我这里有个问题，当我点击`加一`按钮的时候，也会执行卸载回调。不知道为啥？明天查查原因。
 
+> 后来查询资料才知道：**每次重新渲染，都会导致原组件（包含子组件）的销毁，以及新组件（包含子组件）的诞生**。
+>
+> 所以才会走卸载的函数回调。
+
+
+
+## ref hook
+
+类似类式组件中的ref。
+
+```jsx
+import React from 'react';
+
+// 函数式组件实现方式，使用Hooks
+const App = () => {
+	// 创建一个ref容器
+    const ref1 = React.useRef()
+    return (
+        <div>
+         	{/*使用ref关联上面创建的ref*/}
+            <input ref={ref1}/>
+            <button onClick={()=> console.log(ref1.current.value)}>打印输入框的值</button>
+        </div>
+    )
+}
+
+export default App;
+```
+
+![image-20221125185104550](https://itlab1024-1256529903.cos.ap-beijing.myqcloud.com/202211251855024.png)
+
+# Fragment
+
+创建组件的时候，我们之前在最外层包裹一个`div`，但是其实没什么用，只不过`JSX`要求比如有根元素，所以才加了一个，页面渲染后也会多这个`div`,组件层级多的时候就会有很多无用的`div`元素，Fragment就能解决这个问题。
+
+不用`div`包裹，改用`Fragement`包裹，react编译后会智能的去掉。
+
+```jsx
+import React, {Fragment} from 'react';
+
+// 函数式组件实现方式，使用Hooks
+const App = () => {
+    // 创建一个ref容器
+    const ref1 = React.useRef()
+    return (
+        <Fragment>
+            {/*使用ref关联上面创建的ref*/}
+            <input ref={ref1}/>
+            <button onClick={()=> console.log(ref1.current.value)}>打印输入框的值</button>
+        </Fragment>
+    )
+}
+
+export default App;
+```
+
+# Context
+
+Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法。
+
+但是他不能乱用，一般使用场景是用其传递`全局数据`，比如认证、主题、语言等。
+
+```jsx
+import React, {Fragment} from 'react';
+// Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
+// 为当前的 theme 创建一个 context（“light”为默认值）。
+const ThemeContext = React.createContext('light');
+
+class App extends React.Component {
+    render() {
+        // 使用一个 Provider 来将当前的 theme 传递给以下的组件树。
+        // 无论多深，任何组件都能读取这个值。
+        // 在这个例子中，我们将 “dark” 作为当前的值传递下去。
+        return (
+            <ThemeContext.Provider value="dark">
+                <Toolbar/>
+            </ThemeContext.Provider>
+        );
+    }
+}
+
+// 中间的组件再也不必指明往下传递 theme 了。
+function Toolbar() {
+    return (
+        <div>
+            <ThemedButton/>
+        </div>
+    );
+}
+
+class ThemedButton extends React.Component {
+    // 指定 contextType 读取当前的 theme context。
+    // React 会往上找到最近的 theme Provider，然后使用它的值。
+    // 在这个例子中，当前的 theme 值为 “dark”。
+    static contextType = ThemeContext;
+
+    render() {
+        return (<Fragment>
+            {this.context}
+        </Fragment>);
+    }
+}
+
+export default App;
+```
+
+> 结束语：以上就是我简单的学习了下React，并没有学地很细，慢慢在实际开发中积累吧，接下来打算使用React做一个管理系统。后端采用Go语言（准备使用Gorm+gin框架）。
+
+> github：https://github.com/itlab1024
+> 个人博客：https://itlab1024.com/
 
